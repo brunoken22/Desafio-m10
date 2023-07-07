@@ -7,6 +7,7 @@ export default function Home() {
   return (
 
     <>
+      <h1>aDIOS</h1>
       {/* <Buscador/>
       <Destacados/> */}
     </>
