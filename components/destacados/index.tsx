@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -12,7 +13,7 @@ export function Destacados(){
       <div>
          <Subtitle>Productos Destacados</Subtitle>
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {[1,2,3,4,5,6].map((el:any,pos)=><Link href={"/product/1"} key={pos}> <ThemplateDestacados/></Link>)}
+            {[1,2,3,4,5,6].map((el:any,pos)=><Link href={"/product/"+pos} key={pos}> <ThemplateDestacados id={pos}/></Link>)}
          </div>
       </div>
    )
@@ -20,9 +21,10 @@ export function Destacados(){
 
 
 
-function ThemplateDestacados(){
+function ThemplateDestacados(props:any){
+   
    return (
-      <div>
+      <div id={props.id}>
          <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
             <CardMedia

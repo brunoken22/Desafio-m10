@@ -1,11 +1,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import type { Metadata } from 'next'
 import React from 'react';
 import { MainLayout } from '@/components/layout'
-import {RecoilRoot} from 'recoil';
-import { ThemeProvider as MuiThemeProvider , createTheme  } from '@mui/material/styles';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import { Metadata } from 'next';
 
 export const metadata :Metadata= {
   title:"E-commerce",
@@ -14,18 +11,6 @@ export const metadata :Metadata= {
 }
 const inter = Inter({ subsets: ['latin'] })
 
-// const StyledTheme = {
-//   bg: "#000",
-//   color:"#fff"
-// };
-
-
-
-// const muiTheme = createTheme({
-//   palette: {
-//     mode: 'dark',
-//   },
-// });
 
 export default function RootLayout({
   children,
@@ -35,19 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}  
-        {/* <RecoilRoot >
-
-        </RecoilRoot> */}
-
+        <MainLayout>
+          {children}  
+        </MainLayout>
       </body>
     </html>
   )
 }
-{/* <MuiThemeProvider theme={muiTheme}>
-<StyledThemeProvider theme={StyledTheme}>
-  <MainLayout>
-    {children}  
-  </MainLayout>
-</StyledThemeProvider>
-</MuiThemeProvider> */}

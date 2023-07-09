@@ -9,18 +9,18 @@ const Footerr = styled.footer`
    row-gap: 1rem;
 `
 const Div = styled.div<any>`
-   display: ${(props):any=>(props.display)};
+   display: ${(props):any=>(props.$display) || "block"} ;
    justify-content:space-between;
 `
 
 const H4 = styled.h4`
   
 `
-export default function Footer(){
+export  function Footer(){
 
    return(
       <Footerr >
-         <Div display="flex">
+         <Div $display="flex">
             <Div>
                <Div>
                   <Body>Login</Body>
