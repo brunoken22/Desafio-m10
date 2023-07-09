@@ -3,9 +3,13 @@ import { CarouselComp } from "@/components/carousel"
 import { Body, Subtitle } from "@/ui/typography"
 import Button from "@mui/material/Button"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
-export default function ProductId({params}:any){
-   // console.log(params)
+import { useEffect } from "react";
+import { destacados } from "@/lib/api";
+export  default async function ProductId({params}:any){
+   console.log(params)
+   useEffect(() => {
+    
+    }, []);
    return(
       <div style={{display:"flex", width: "80%",margin: "0 auto"}}>
          <CarouselComp/>

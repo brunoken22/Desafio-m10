@@ -1,5 +1,5 @@
 "use client"
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,13 +7,36 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Subtitle } from "@/ui/typography";
 import Link from 'next/link';
+import { base } from '@/lib/airtable';
+import {useRecoilState} from 'recoil'
+import { destacados } from '@/lib/atom';
 
 export function Destacados(){
+   const [destac,setDestac] = useRecoilState(destacados)
+   useEffect(()=>{
+      base('Furniture').select({
+         recordMetadata: ['commentCount']
+     }).firstPage(function(err, records) {
+         if (err) { console.error(err); return; }
+         const data:any =[]
+         records?.forEach(function(record) {
+            //  console.log('Retrieved a record with', record.commentCount, 'comments');
+            if(data.length < 4){
+               
+               data.push(record.fields)
+            }
+         });
+         
+         setDestac(data)
+     });
+      
+   },[destac]) 
+
    return (
       <div>
          <Subtitle>Productos Destacados</Subtitle>
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {[1,2,3,4,5,6].map((el:any,pos)=><Link href={"/product/"+pos} key={pos}> <ThemplateDestacados id={pos}/></Link>)}
+            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.Vendor[0]} key={pos}> <ThemplateDestacados id={el.Vendor[0]} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
          </div>
       </div>
    )
@@ -30,15 +53,15 @@ function ThemplateDestacados(props:any){
             <CardMedia
                component="img"
                height="140"
-               image="https://johnfoosar.vtexassets.com/arquivos/ids/159275-800-auto?v=637844324464400000&width=800&height=auto&aspect=true"
+               image={props.img[0].url}
                alt="green iguana"
             />
             <CardContent>
                <Typography gutterBottom variant="h5" component="div">
-                  $35.000
+                  $ {props.price}
                </Typography>
                <Typography variant="body2" color="text.secondary">
-                  Zapatillas Nike talle 40
+                  {props.title}
                </Typography>
             </CardContent>
             </CardActionArea>
