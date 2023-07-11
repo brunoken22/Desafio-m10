@@ -7,36 +7,31 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Subtitle } from "@/ui/typography";
 import Link from 'next/link';
-import { base } from '@/lib/airtable';
+import { index } from '@/lib/algolia';
 import {useRecoilState} from 'recoil'
 import { destacados } from '@/lib/atom';
 
 export function Destacados(){
    const [destac,setDestac] = useRecoilState(destacados)
+   const params = {
+      hitsPerPage:4, // Número de elementos a obtener
+      page: 0, // Página de resultados (0 para la primera página)
+    };
    useEffect(()=>{
-      base('Furniture').select({
-         recordMetadata: ['commentCount']
-     }).firstPage(function(err, records) {
-         if (err) { console.error(err); return; }
-         const data:any =[]
-         records?.forEach(function(record) {
-            //  console.log('Retrieved a record with', record.commentCount, 'comments');
-            if(data.length < 4){
-               
-               data.push(record.fields)
-            }
-         });
-         
-         setDestac(data)
-     });
-      
-   },[destac]) 
+      index.search('',params)
+      .then(({ hits }:any) => {
+         setDestac(hits)
+      })
+      .catch((error:any) => {
+         console.error(error);
+      });
+   },[]) 
 
    return (
       <div>
          <Subtitle>Productos Destacados</Subtitle>
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.Vendor[0]} key={pos}> <ThemplateDestacados id={el.Vendor[0]} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
+            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.objectID} key={pos}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
          </div>
       </div>
    )
@@ -44,7 +39,7 @@ export function Destacados(){
 
 
 
-function ThemplateDestacados(props:any){
+export function ThemplateDestacados(props:any){
    
    return (
       <div id={props.id}>

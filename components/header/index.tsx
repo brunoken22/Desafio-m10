@@ -13,8 +13,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
-const pages = ['Products', 'Sobre nosotros'];
+import  Link from 'next/link';
+const pages = [{link:'Productos',url:"/search"}, {link:'Sobre nosotros',url:"/prueba"}];
 const settings = ['Perfil', 'Inicio sesión', 'Cerrar sesión'];
 
 function ResponsiveAppBar() {
@@ -91,18 +91,19 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                  <MenuItem key={page.link} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center"><Link href={page.url} style={{color:"inherit",backgroundColor:"inherit",textDecoration:"none"}}>{page.link}</Link></Typography>  
+                  </MenuItem>
+                
               ))}
             </Menu>
           </Box>
-          <Image
+          <Link href={"/"}>  <Image
             src="https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.png"
             height={60}
             width={50}
             alt='logo'
-          />
+          /></Link>
           <Typography
             variant="h5"
             noWrap
@@ -121,13 +122,15 @@ function ResponsiveAppBar() {
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
+              <Link href={page.url} key={page.link}>
+                <Button
+                
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+                >
+                  {page.link}
+                </Button>
+              </Link>
             ))}
           </Box>
 

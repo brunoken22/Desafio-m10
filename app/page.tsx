@@ -1,12 +1,18 @@
+"use client"
+
 import { Buscador } from '@/components/buscador';
 import { Destacados } from '@/components/destacados';
- 
+import { Title } from '@/ui/typography'
+
 
 export default function Home() {
-  return (
+  const prueba = (data:any)=>{
+  }
 
+  return (
     <>
-      <Buscador/>
+      <Title $bg="#000">El mejor <br></br>e-commerce</Title>
+      <Buscador cambiaremos={prueba}/>
       <Destacados/>
     </>
   )
