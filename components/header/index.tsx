@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import  Link from 'next/link';
 const pages = [{link:'Productos',url:"/search"}, {link:'Sobre nosotros',url:"/prueba"}];
-const settings = ['Perfil', 'Inicio sesión', 'Cerrar sesión'];
+const settings = [{link:'Perfil', url:"/profile"}, {link:'Inicio sesión',url:"/signin"}, {link:'Cerrar sesión',url:"/logout"}];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -135,7 +135,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Configuracion">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" />
               </IconButton>
@@ -157,8 +157,10 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
+                    <Link href={setting.url} style={{color:"inherit",textDecoration:"none"}}>
+                      <Typography textAlign="center">{setting.link}</Typography>
+                   </Link>
                 </MenuItem>
               ))}
             </Menu>

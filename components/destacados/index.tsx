@@ -31,7 +31,7 @@ export function Destacados(){
       <div>
          <Subtitle>Productos Destacados</Subtitle>
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.objectID} key={pos}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
+            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
          </div>
       </div>
    )

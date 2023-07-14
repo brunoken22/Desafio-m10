@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import {RecoilRoot} from 'recoil';
 import { ThemeProvider as MuiThemeProvider , createTheme  } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import { dark } from "@mui/material/styles/createPalette";
 
 const StyledTheme = {
    bg: "#000",
@@ -12,9 +13,13 @@ const StyledTheme = {
  };
  
  const muiTheme = createTheme({
+   
    palette: {
-     mode: 'dark',
-   },
+      background:{
+         paper:"#121212"
+      },
+      mode:"dark"
+    },
  });
 
 const Div = styled.div`
@@ -27,15 +32,17 @@ const Div = styled.div`
 export function MainLayout({children}:any){
    return(
       <RecoilRoot >
-         <MuiThemeProvider theme={muiTheme}>
-            <StyledThemeProvider theme={StyledTheme}>
+         <StyledThemeProvider theme={StyledTheme}>
+            <MuiThemeProvider theme={muiTheme}>
                <ResponsiveAppBar/>
+            </MuiThemeProvider> 
                   <Div>
                      {children}
                   </Div>
+            <MuiThemeProvider theme={muiTheme}>      
                <Footer/>
+            </MuiThemeProvider> 
             </StyledThemeProvider>
-         </MuiThemeProvider> 
       </RecoilRoot>
    )
 }

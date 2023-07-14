@@ -14,18 +14,16 @@ const Div = styled.div`
    flex-direction: column;
    gap: 1rem;
 `
-function SearchAll(searchText:string){
-  const data = search("/api/search?q=" +searchText)
-  return data
-}
+
 
 export  function Buscador(props:any){
+  
   const searchParams = usePathname()
   const searchPath = useSearchParams()
   const router = useRouter()
   const [aBuscar, setABuscar] = useState('');
-  const data = SearchAll(aBuscar)
-  // const evaValue =  props.searchIndex?props.searchIndex:""
+  const data = search("/api/search?q=" +aBuscar) 
+
   const handlerSubmit = (e: any): any => {
     e.preventDefault(); 
     const value = e.target.search.value;
@@ -38,7 +36,7 @@ export  function Buscador(props:any){
   };
 
   useEffect(() => {
-    if (aBuscar) {
+    if (data) {
       props.cambiaremos(data);
       return
     }

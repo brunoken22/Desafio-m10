@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import {Body} from '@/ui/typography'
 
 const Footerr = styled.footer`
-   background-color: #000;
+   background-color: #121212;
    color:#fff;
    padding: 1rem;
    display: grid;
