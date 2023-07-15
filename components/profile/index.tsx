@@ -5,11 +5,11 @@ import { FormEvent, useEffect,useState } from "react";
 import { useMe, useModMe } from "@/lib/hooks"; 
 
 export function Perfil(){
-   const {  data, error, isLoading}=useMe(localStorage.getItem("token"))
+   const {  data, error, isLoading}=useMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null)
    
    const [dataInfo,setDataInfo] = useState({email:"",name:"",direccion:"",telefono:""})
    const [modData,setModData] = useState({data:{email:"",name:"",direccion:"",telefono:""},authId:""})
-   const { modResData,modResError,modResLoading}=useModMe(localStorage.getItem("token"),modData)
+   const { modResData,modResError,modResLoading}=useModMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,modData)
 
    useEffect(()=>{
       // console.log(modResData,modResError,modResLoading)
@@ -30,10 +30,10 @@ export function Perfil(){
          name:(e.target as HTMLFormElement).fullname.value,
          direccion:(e.target as HTMLFormElement).direccion.value,
          telefono:(e.target as HTMLFormElement).telefono.value},
-         authId:(localStorage.getItem("authId") as string)
+         authId:(typeof localStorage !== 'undefined' ? (localStorage.getItem('authId') as string) : "")
       })
       if(modResData?.email){
-         setDataInfo(modResData)
+         alert("Datos modificados")
       }
    }
    return (
