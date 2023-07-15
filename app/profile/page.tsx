@@ -4,7 +4,7 @@ import { Perfil } from "@/components/profile";
 export default function Profile(){
    return (
       <div>
-         <Perfil/>
+         < Perfil/>
       </div>
    )
 }

@@ -60,7 +60,7 @@ export function useMe(token: any) {
 export function useModMe(token: any, newData: any) {
   const api = '/api/me';
   const option = {
-    method: 'patch',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
