@@ -58,7 +58,6 @@ export function useMe(token: any) {
 }
 
 export function useModMe(token: any, newData: any) {
-  console.log(newData);
   const api = '/api/me';
   const option = {
     method: 'PATCH',

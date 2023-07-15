@@ -13,7 +13,6 @@ export async function fetchAPI(api: string) {
 
 export async function fetchApiAuth(api: any) {
   const option = api[1] || {};
-  console.log(option);
   if (api) {
     if (true) {
       const response = await fetch('https://desafio-m9-two.vercel.app' + api[0], option);

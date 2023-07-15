@@ -8,12 +8,15 @@ export function Perfil(){
    const {  data, error, isLoading}=useMe(localStorage.getItem("token"))
    
    const [dataInfo,setDataInfo] = useState({email:"",name:"",direccion:"",telefono:""})
-   const [modData,setModData] = useState({data:{name:"",direccion:"",telefono:""},authId:""})
+   const [modData,setModData] = useState({data:{email:"",name:"",direccion:"",telefono:""},authId:""})
    const { modResData,modResError,modResLoading}=useModMe(localStorage.getItem("token"),modData)
 
    useEffect(()=>{
-      console.log(modResData,modResError,modResLoading)
-
+      // console.log(modResData,modResError,modResLoading)
+      // if(modResData?.email){
+      //    setDataInfo(modResData) 
+      //    return
+      // }
       if(data?.email){
          setDataInfo(data)
       }
@@ -22,11 +25,16 @@ export function Perfil(){
    const handleSumit =(e:FormEvent)=>{
       e.preventDefault()
       setModData({
-         data:{ name:(e.target as HTMLFormElement).fullname.value,
+         data:{ 
+         email:dataInfo.email,
+         name:(e.target as HTMLFormElement).fullname.value,
          direccion:(e.target as HTMLFormElement).direccion.value,
          telefono:(e.target as HTMLFormElement).telefono.value},
          authId:(localStorage.getItem("authId") as string)
       })
+      if(modResData?.email){
+         setDataInfo(modResData)
+      }
    }
    return (
       <div>
