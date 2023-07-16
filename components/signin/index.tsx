@@ -103,7 +103,8 @@ export  function FormularioSignin() {
                   fullWidth
                   required
                />
-            </Box> 
+            </Box>
+            <p>Te envíamos un código a tu mail</p>
          <Button type='submit' variant="contained" style={{color:"#fff"}}>Ingresar</Button>
          </Box>:null}
       </>

@@ -12,11 +12,10 @@ export function Perfil(){
    const { modResData,modResError,modResLoading}=useModMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,modData)
 
    useEffect(()=>{
-      // console.log(modResData,modResError,modResLoading)
-      // if(modResData?.email){
-      //    setDataInfo(modResData) 
-      //    return
-      // }
+      if(modResData?.email){
+         setDataInfo(modResData) 
+         return
+      }
       if(data?.email){
          setDataInfo(data)
       }
@@ -32,7 +31,7 @@ export function Perfil(){
          telefono:(e.target as HTMLFormElement).telefono.value},
          authId:(typeof localStorage !== 'undefined' ? (localStorage.getItem('authId') as string) : "")
       })
-      if(modResData?.email){
+      if(dataInfo?.email){
          alert("Datos modificados")
       }
    }

@@ -2,13 +2,21 @@ import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { fetchAPI, fetchApiAuth } from './api';
 
-export function useProduct(productId: string) {
+export function useProduct(productId: any) {
   const { data, error, isLoading } = useSWRImmutable(productId, fetchAPI);
   return data;
 }
 
-export function search(productId: string) {
-  const { data, error, isLoading } = useSWRImmutable(productId, fetchAPI);
+export function search(searchParams: any) {
+  const params = `/search?q=${searchParams.q}&limit=${searchParams.limit}&offset=${searchParams.offset}`;
+  const { data, error, isLoading } = useSWRImmutable(
+    searchParams.q ? '/api' + params : null,
+    fetchAPI
+  );
+  // const { data, error, isLoading } = useSWRImmutable(
+  //   searchParams ? '/api' + searchParams : null,
+  //   fetchAPI
+  // );
   return data;
 }
 
