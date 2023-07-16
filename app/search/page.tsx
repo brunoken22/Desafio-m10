@@ -3,6 +3,8 @@ import { Buscador } from '@/components/buscador';
 import { useEffect,useState,useRef } from 'react';
 import { ThemplateDestacados } from '@/components/destacados';
 import Link from 'next/link';
+import Button from '@mui/material/Button';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 export default function Search({params}:any){
@@ -13,7 +15,7 @@ export default function Search({params}:any){
          if( (data?.results.length )+ data?.pagination.offset == (data?.pagination.total)){
                btn.current.style.display = 'none'
          }else{
-            btn.current.style.display = 'block'
+            btn.current.style.display = 'flex'
          }
    },[data])
    const handleSearchAll = (data:any)=>{
@@ -35,7 +37,9 @@ export default function Search({params}:any){
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
             {(data as any)?.results.length > 0? (data as any).results.map((el:any,pos:any)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>}):"No se encontraron resultados"}
          </div>
-         <button onClick={handleClick} ref={btn}>Ver más</button>
+         <div style={{justifyContent: "center"}} ref={btn}>
+            <Button style={{display:"flex"}} size="large"  color="success" onClick={handleClick} >Ver más <NavigateNextIcon/></Button>
+         </div>
       </div>
    )
 }

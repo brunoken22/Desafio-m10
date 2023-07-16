@@ -15,14 +15,15 @@ const Div = styled.div`
 `
 
 export  function Buscador(props:any){
+  const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [searchState, setSearchState] = useState({q:"",limit:"5",offset:"0"});
+  const [searchState, setSearchState] = useState({q:"",limit:searchParams.get("limit") || 5,offset:searchParams.get("offset") || 0});
   const [inputValue, setInputValue] = useState(searchParams.get("q") || '');
   const router = useRouter()
   const data = search( searchState) 
 
   useEffect(() => {
-
+    console.log(searchState)
     if(props.nextCambio){
       props.next(false)
       setSearchState((prev:any)=>({
@@ -31,7 +32,6 @@ export  function Buscador(props:any){
       }))
       router.push(`/search?q=${inputValue}&limit=${searchState.limit}&offset=${Number(searchState.offset)+5}`)
     }
-
     if(inputValue){
       setSearchState((prev)=>({
         ...prev,
@@ -41,21 +41,21 @@ export  function Buscador(props:any){
     if (data?.results) {
       props.cambiaremos(data);
     }
-  }, [data,props.nextCambio,inputValue]);
+  }, [data,props.nextCambio]);
   
   const handlerSubmit = (e: any): any => {
     e.preventDefault(); 
     const value = e.target.search.value;
     const ir = `/search?q=${value}&limit=5&offset=0`
-    if(Number(data?.results.length )+ data?.pagination.offset == Number(data?.pagination.total) ){
+    if(Number(data?.results.length )+ data?.pagination.offset == Number(data?.pagination.total && pathname == "/search") ){
       location.reload()
     }
     router.push(ir)
     setSearchState((prev:any)=>({
       ...prev,
+      offset:0,
       q:value
     }))
-    // const ir = `/search?q=${value}&limit=${searchParams.get("limit")?searchParams.get("limit"):5}&offset=${searchParams.get("offset")?searchParams.get("offset"):0}`
   };
 
   return (
