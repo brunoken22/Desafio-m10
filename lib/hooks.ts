@@ -13,10 +13,7 @@ export function search(searchParams: any) {
     searchParams.q ? '/api' + params : null,
     fetchAPI
   );
-  // const { data, error, isLoading } = useSWRImmutable(
-  //   searchParams ? '/api' + searchParams : null,
-  //   fetchAPI
-  // );
+
   return data;
 }
 

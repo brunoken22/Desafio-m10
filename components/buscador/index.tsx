@@ -13,14 +13,9 @@ const Div = styled.div`
    flex-direction: column;
    gap: 1rem;
 `
-function urlNext(params:any){
-  const url = `/search?q=${params.q}&limit=${params.limit?params.limit:5}&offset=${params.offset?Number(params.offset)+5:0}`
-  return url
-}
 
 export  function Buscador(props:any){
   const searchParams = useSearchParams()
-  // const [aBuscar, setABuscar] = useState('');
   const [searchState, setSearchState] = useState({q:"",limit:"5",offset:"0"});
   const [inputValue, setInputValue] = useState(searchParams.get("q") || '');
   const router = useRouter()
@@ -29,15 +24,12 @@ export  function Buscador(props:any){
   useEffect(() => {
 
     if(props.nextCambio){
+      props.next(false)
       setSearchState((prev:any)=>({
         ...prev,
-        offset:Number(searchParams.get("offset"))
+        offset:Number(searchParams.get("offset")) + 5
       }))
-      // setTimeout(()=>{
-        props.next(false)
-        router.push(`/search?q=${inputValue}&limit=${searchState.limit}&offset=${Number(searchState.offset)+5}`)
-        console.log(searchState)
-      // },1000)
+      router.push(`/search?q=${inputValue}&limit=${searchState.limit}&offset=${Number(searchState.offset)+5}`)
     }
 
     if(inputValue){
@@ -55,6 +47,9 @@ export  function Buscador(props:any){
     e.preventDefault(); 
     const value = e.target.search.value;
     const ir = `/search?q=${value}&limit=5&offset=0`
+    if(Number(data?.results.length )+ data?.pagination.offset == Number(data?.pagination.total) ){
+      location.reload()
+    }
     router.push(ir)
     setSearchState((prev:any)=>({
       ...prev,
