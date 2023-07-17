@@ -79,3 +79,22 @@ export function useModMe(token: any, newData: any) {
   );
   return { modResData: data, modResError: error, modResLoading: isLoading };
 }
+
+export async function useOrder(token: string, productId: string) {
+  const api = '/api/order?productId=' + productId;
+  const option = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+
+  // const { data, error, isLoading } = useSWRImmutable(
+  //   token && productId ? [api, option] : null,
+  //   fetchApiAuth
+  // );
+  // return { orderResData: data, modResError: error, modResLoading: isLoading };
+  const data = await fetchApiAuth([api, option]);
+  return data;
+}

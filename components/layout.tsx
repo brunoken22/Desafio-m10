@@ -8,7 +8,7 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { dark } from "@mui/material/styles/createPalette";
 
 const StyledTheme = {
-   bg: "#000",
+   bg: "#121212",
    color:"#fff"
  };
  
