@@ -46,7 +46,7 @@ export  function Buscador(props:any){
     e.preventDefault(); 
     const value = e.target.search.value;
     const ir = `/search?q=${value}&limit=5&offset=0`
-    if(Number(data?.results.length )+ data?.pagination.offset == Number(data?.pagination.total && pathname == "/search") ){
+    if(data?.results.length > 0 && Number(data?.results.length)+ data?.pagination.offset == Number(data?.pagination.total && pathname == "/search") ){
       location.reload()
     }
     router.push(ir)
