@@ -27,6 +27,7 @@ const Div = styled.div`
    display: grid;
    grid-template-rows: auto 1fr;
    row-gap: 5rem;
+   justify-content: "center";
 `
 
 export function MainLayout({children}:any){

@@ -17,11 +17,13 @@ export  default  function ProductId({params}:any){
    }, [params.id]);
    
    return(
-      <div style={{display:"flex", width: "80%",margin: "0 auto"}}> 
+      <div style={{display:"flex", width: "80%",margin: "0 auto",gap:"2rem",flexWrap:"wrap",justifyContent:"center"}}> 
          <CarouselComp img={data?data.Images:null}/>
          <div style={{display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
+            gap:"1rem",
+            maxWidth:"700px",
             alignItems: "center"}}>
             <div style={{display:"flex",flexDirection:"column",gap:"1rem"}}>
                <Subtitle>{data?data.Name:null}</Subtitle>

@@ -23,7 +23,6 @@ export  function Buscador(props:any){
   const data = search( searchState) 
 
   useEffect(() => {
-    console.log(searchState)
     if(props.nextCambio){
       props.next(false)
       setSearchState((prev:any)=>({

@@ -33,9 +33,11 @@ export default function Search({params}:any){
    return(
       <div>
          <Buscador cambiaremos={handleSearchAll} nextCambio={nextCambio} next={next}></Buscador>
-         <p>Resultados {data?.pagination.limit ? data?.results.length + data?.pagination.offset:null} de {data?.pagination.total ? data?.pagination.total:null}</p>
-         <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {(data as any)?.results.length > 0? (data as any).results.map((el:any,pos:any)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>}):"No se encontraron resultados"}
+         <div style={{padding:"1.5rem",display:"flex",gap:"1.5rem",flexDirection:"column"}}>
+            <p style={{textAlign:"center"}}>Resultados {data?.pagination.limit ? data?.results.length + data?.pagination.offset:null} de {data?.pagination.total ? data?.pagination.total:null}</p>
+            <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
+               {(data as any)?.results.length > 0? (data as any).results.map((el:any,pos:any)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>}):"No se encontraron resultados"}
+            </div>
          </div>
          <div style={{justifyContent: "center"}} ref={btn}>
             <Button style={{display:"flex"}} size="large"  color="success" onClick={handleClick} >Ver más <NavigateNextIcon/></Button>

@@ -43,13 +43,13 @@ export function ThemplateDestacados(props:any){
    
    return (
       <div id={props.id}>
-         <Card sx={{ maxWidth: 345 }}>
+         <Card sx={{ width: 280}}>
             <CardActionArea>
             <CardMedia
                component="img"
-               height="140"
+               height="290"
                image={props.img[0].url}
-               alt="green iguana"
+               alt="x"
             />
             <CardContent>
                <Typography gutterBottom variant="h5" component="div">
