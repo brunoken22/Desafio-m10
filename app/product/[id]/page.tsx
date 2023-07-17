@@ -21,7 +21,7 @@ export  default async  function ProductId({params}:any){
       
    }, [params.id]);
 
-   const handleClick = (e:FormEvent)=>{
+   const handleClick = async(e:FormEvent)=>{
       e.preventDefault()
    const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
       
