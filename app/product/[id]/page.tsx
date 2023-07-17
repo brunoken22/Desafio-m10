@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {useOrder, useProduct} from '@/lib/hooks'
 
-export  default   function ProductId({params}:any){
+export  default async  function ProductId({params}:any){
    const router = useRouter()
    const [product,setProduct] =useState({})
    const data = useProduct("/api/products/"+params.id)
@@ -21,9 +21,9 @@ export  default   function ProductId({params}:any){
       
    }, [params.id]);
 
-   const handleClick = async(e:FormEvent)=>{
+   const handleClick = (e:FormEvent)=>{
       e.preventDefault()
-      const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
+   const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
       
       console.log(orderResData)
       if(orderResData?.url){
