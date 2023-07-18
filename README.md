@@ -2,8 +2,8 @@
 
 ## Cuenta de Mercado Pago de prueba
 
-- Email: test_user_1295433133@testuser.com
-- Contraseña: VUYng0UVMh
+- Email: test_user_1250929077@testuser.com
+- Contraseña: YwsPhn1QAD
 
 ## Tarjeta de prueba
 
