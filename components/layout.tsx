@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import {RecoilRoot} from 'recoil';
 import { ThemeProvider as MuiThemeProvider , createTheme  } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { dark } from "@mui/material/styles/createPalette";
 
 const StyledTheme = {
    bg: "#121212",
@@ -43,7 +42,7 @@ export function MainLayout({children}:any){
             <MuiThemeProvider theme={muiTheme}>      
                <Footer/>
             </MuiThemeProvider> 
-            </StyledThemeProvider>
+         </StyledThemeProvider>
       </RecoilRoot>
    )
 }

@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const withSvgr = require('next-svgr');
+
+const nextConfig = withSvgr({
   async headers() {
     return [
       {
@@ -32,5 +34,5 @@ const nextConfig = {
   compiler: {
     styledComponents: true
   }
-};
+});
 module.exports = nextConfig;
