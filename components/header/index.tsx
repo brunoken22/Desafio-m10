@@ -17,6 +17,7 @@ import  Link from 'next/link';
 import { useMe } from '@/lib/hooks';
 import { couldStartTrivia } from 'typescript';
 import styled from 'styled-components'
+import { useEffect } from 'react';
 
 const Div = styled.div`
   @media(max-width: 900px){
@@ -37,7 +38,11 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  
+
+  useEffect(()=>{
+
+  },[data])
+
   const handleCerrar = (e:any)=>{
     e.preventDefault()
     if(typeof localStorage !== 'undefined' )localStorage?.removeItem("token")
@@ -156,9 +161,10 @@ function ResponsiveAppBar() {
             <Tooltip title="Configuracion">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" /> */}
-                <Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email || "Inicio Sesión"}</Typography></Div>
+                <Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email ||null}</Typography></Div>
               </IconButton>
             </Tooltip>
+                {!data?.email ? <Link href={"/signin"}><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0,textDecoration:"none" }}>Inicio Sesión</Typography> </Link>:null}
             {data?.email?<Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>:null}
             <Menu
               sx={{ mt: '45px' }}
