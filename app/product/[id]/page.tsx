@@ -20,9 +20,10 @@ export  default   function ProductId({params}:any){
    const handleClick = async(e:FormEvent)=>{
       e.preventDefault()
       const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
-      console.log(orderResData)
+  
       if(orderResData?.url){
-         window.open(orderResData.url,'_blank');
+         // window.open(orderResData.url,'_blank');
+         router.push(orderResData.url)
       }
    }
    return(
