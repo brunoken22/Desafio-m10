@@ -29,7 +29,7 @@ const settings = [{link:'Perfil', url:"/profile"}, {link:'Inicio sesión',url:"/
 
 function ResponsiveAppBar() {
 
-  const {data} = useMe(localStorage?.getItem("token")?localStorage?.getItem("token"):null)
+  const {data} = useMe(typeof localStorage !== 'undefined' ?localStorage?.getItem("token"):null)
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -40,7 +40,7 @@ function ResponsiveAppBar() {
   
   const handleCerrar = (e:any)=>{
     e.preventDefault()
-    if(localStorage?.getItem("token"))localStorage?.getItem("token")
+    if(typeof localStorage !== 'undefined' )localStorage?.getItem("token")
     return null
   }
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
