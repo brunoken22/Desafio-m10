@@ -13,13 +13,9 @@ export  default async  function ProductId({params}:any){
    const [product,setProduct] =useState({})
    const data = useProduct("/api/products/"+params.id)
    useEffect(() => {
-      // console.log(orderResData)
       setProduct(data)
-      // if(orderResData?.url){
-      //    router.push(orderResData.url)
-      // }
-      
-   }, [params.id]);
+
+   }, [params.id,data]);
 
    const handleClick = async(e:FormEvent)=>{
       e.preventDefault()
