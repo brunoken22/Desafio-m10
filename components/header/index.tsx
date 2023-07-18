@@ -40,7 +40,7 @@ function ResponsiveAppBar() {
   
   const handleCerrar = (e:any)=>{
     e.preventDefault()
-    if(typeof localStorage !== 'undefined' )localStorage?.getItem("token")
+    if(typeof localStorage !== 'undefined' )localStorage?.removeItem("token")
     return null
   }
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -156,10 +156,9 @@ function ResponsiveAppBar() {
             <Tooltip title="Configuracion">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" /> */}
-                <Div><Button  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0  }}>{data?.email || "Inicio Sesión"}</Button></Div>
+                <Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email || "Inicio Sesión"}</Typography></Div>
               </IconButton>
             </Tooltip>
-            
             {data?.email?<Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>:null}
             <Menu
               sx={{ mt: '45px' }}
