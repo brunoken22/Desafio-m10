@@ -156,10 +156,11 @@ function ResponsiveAppBar() {
             <Tooltip title="Configuracion">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" /> */}
-                <Div><Button  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0  }}>{data?.email}</Button></Div>
+                <Div><Button  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0  }}>{data?.email || "Inicio Sesión"}</Button></Div>
               </IconButton>
             </Tooltip>
-            <Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>
+            
+            {data?.email?<Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>:null}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
