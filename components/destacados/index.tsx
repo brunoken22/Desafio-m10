@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { index } from '@/lib/algolia';
 import {useRecoilState} from 'recoil'
 import { destacados } from '@/lib/atom';
+import {Loader} from '@/ui/loader'
 
 export function Destacados(){
    const [destac,setDestac] = useRecoilState(destacados)

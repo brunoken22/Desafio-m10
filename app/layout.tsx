@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import React from 'react';
 import { MainLayout } from '@/components/layout'
 import { Metadata } from 'next';
+import Loading from "./loading"
+import { Suspense } from "react";
 
 export const metadata :Metadata= {
   title:"E-commerce",
@@ -20,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MainLayout>
-          {children}  
-        </MainLayout>
+        <Suspense fallback={<Loading/>}>
+          <MainLayout>
+            {children}  
+          </MainLayout>
+        </Suspense>
       </body>
     </html>
   )

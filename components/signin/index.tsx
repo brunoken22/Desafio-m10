@@ -2,13 +2,16 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Button } from '@mui/material';
-import { useState } from 'react';
-import Link from 'next/link'
+import { useEffect, useState } from 'react';
 import { useAuth,useToken } from '@/lib/hooks';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import {user} from '@/lib/atom'
+import {Loader} from '@/ui/loader'
 
 export  function FormularioSignin() {
+   const [dataUser,setDataUser] = useRecoilState(user) 
    const router = useRouter()
    const [data,setData] = useState({
       email:"",
@@ -21,15 +24,18 @@ export  function FormularioSignin() {
    const [code,setCode] = useState("")
    const {token,errorToken,isLoading} =useToken({code, email:data.email})
    const darCod =useAuth(data)
-   if(token?.errorToken){
+   useEffect(()=>{
+      if(token?.messsage == 'Accedistes'){
+         setDataUser(token)
+         router.push("/profile")
+         localStorage.setItem("token",token.token.tokenGen)
+         localStorage.setItem("authId",token.token.authId)
+      }
+   },[token])
+   if(isLoading){
       return (
-         <h1>Error</h1>
-      )
-   }
-   if(token?.isLoading){
-      return (
-         <h1>cargando</h1>
-      )
+         <Loader ></Loader>
+         )
    }
    const handleSubmit = (e:any)=>{
       e.preventDefault()
@@ -52,11 +58,7 @@ export  function FormularioSignin() {
    }
    const handleSubmitCode = (e:any)=>{
       e.preventDefault()
-      if(token?.messsage == 'Accedistes'){
-         localStorage.setItem("token",token.token.tokenGen)
-         localStorage.setItem("authId",token.token.authId)
-         router.push("/profile")
-      }
+      setCode(e.target.code.value)
    }
 
    return (
@@ -99,7 +101,7 @@ export  function FormularioSignin() {
                   label="Código"
                   type='number'
                   variant="standard"
-                  onChange={(e:any)=>e.target.value.length  == 5 ? setCode(e.target.value):e.target.value}
+                  // onChange={(e:any)=>e.target.value.length  == 5 ? setCode(e.target.value):e.target.value}
                   fullWidth
                   required
                />

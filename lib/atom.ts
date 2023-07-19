@@ -12,3 +12,13 @@ export const searchAll = atom({
     pagination: {}
   }
 });
+
+export const user = atom({
+  key: 'user',
+  default: {
+    email:"",
+    nombre:"",
+    direccion:"",
+    telefono:""
+  }
+})  

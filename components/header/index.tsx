@@ -15,9 +15,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import  Link from 'next/link';
 import { useMe } from '@/lib/hooks';
-import { couldStartTrivia } from 'typescript';
 import styled from 'styled-components'
 import { useEffect } from 'react';
+import {user} from '@/lib/atom'
+import { useRecoilState } from 'recoil';
+import { spawn } from 'child_process';
 
 const Div = styled.div`
   @media(max-width: 900px){
@@ -25,12 +27,13 @@ const Div = styled.div`
   }
 `
 
-const pages = [{link:'Productos',url:"/search"}, {link:'Sobre nosotros',url:"/prueba"}];
+const pages = [{link:'Productos',url:"/search"}, {link:'Sobre nosotros',url:"/"}];
 const settings = [{link:'Perfil', url:"/profile"}, {link:'Inicio sesión',url:"/signin"}, {link:'Cerrar sesión'}];
 
 function ResponsiveAppBar() {
+  const [dataUser,setDataUser] = useRecoilState(user) 
 
-  const {data} = useMe(typeof localStorage !== 'undefined' ?localStorage?.getItem("token"):null)
+  const {data,isLoading} = useMe(typeof localStorage !== 'undefined' ?localStorage?.getItem("token"):null)
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -38,15 +41,16 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-
   useEffect(()=>{
-
-  },[data])
-
+    if(data?.email){
+      setDataUser(data)
+    }
+  },[data,dataUser])
+  
   const handleCerrar = (e:any)=>{
     e.preventDefault()
     if(typeof localStorage !== 'undefined' )localStorage?.removeItem("token")
-    return null
+    location.reload()
   }
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -54,11 +58,9 @@ function ResponsiveAppBar() {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -157,15 +159,16 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 ,display:"flex",flexDirection:"column",alignItems:"center"}}>
-            <Tooltip title="Configuracion">
+          <Box sx={{ flexGrow: 0 ,display:"flex",flexDirection:"column",alignItems:"center",gap:"0.5rem"}} >
+            <Tooltip title="Configuracion" >
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" /> */}
-                <Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email ||null}</Typography></Div>
+                {dataUser?.email?<Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email }</Typography></Div>:null}
               </IconButton>
             </Tooltip>
+
                 {!data?.email ? <Link href={"/signin"}><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0,textDecoration:"none" }}>Inicio Sesión</Typography> </Link>:null}
-            {data?.email?<Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>:null}
+                {data?.email?<Div><Button  sx={{ my: 2, color: 'red', display: 'block',margin:0,padding:0 }} onClick={handleCerrar}>Cerrar Sesión</Button> </Div>:null}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -184,7 +187,7 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
-                    <Link href={setting.url?setting.url:""} style={{color:"inherit",textDecoration:"none"}} onClick={setting.url?handleCerrar:()=>{}}>
+                    <Link href={setting.url?setting.url:""} style={{color:"inherit",textDecoration:"none"}} onClick={!setting.url?handleCerrar:()=>{}}>
                       <Typography textAlign="center">{setting.link}</Typography>
                    </Link>
                 </MenuItem>

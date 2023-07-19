@@ -7,8 +7,7 @@ const Div = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
-   
+   gap:3rem;
 `
 export default async function Signin(){
 

@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { FormEvent, useEffect,useState } from "react";
 import { useMe, useModMe } from "@/lib/hooks"; 
+import {Loader} from '@/ui/loader'
 
 export function Perfil(){
    const {  data, error, isLoading}=useMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null)
@@ -10,7 +11,7 @@ export function Perfil(){
    const [dataInfo,setDataInfo] = useState({email:"",name:"",direccion:"",telefono:""})
    const [modData,setModData] = useState({data:{email:"",name:"",direccion:"",telefono:""},authId:""})
    const { modResData,modResError,modResLoading}=useModMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,modData)
-
+   
    useEffect(()=>{
       if(modResData?.email){
          setDataInfo(modResData) 
@@ -20,6 +21,9 @@ export function Perfil(){
          setDataInfo(data)
       }
    },[data])
+   if(modResLoading || modResLoading){
+      return (<Loader></Loader>)
+   }
 
    const handleSumit =(e:FormEvent)=>{
       e.preventDefault()
@@ -31,12 +35,10 @@ export function Perfil(){
          telefono:(e.target as HTMLFormElement).telefono.value},
          authId:(typeof localStorage !== 'undefined' ? (localStorage.getItem('authId') as string) : "")
       })
-      if(dataInfo?.email){
-         alert("Datos modificados")
-      }
+ 
    }
+   
    return (
-      <div>
          <Box component="form" sx={{ '& > :not(style)': { m: 1 } }} style={{color:"#000",display: "flex",flexDirection: "column" ,maxWidth: "100%",minWidth: "30%"}} onSubmit={handleSumit} >
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                <TextField
@@ -79,6 +81,5 @@ export function Perfil(){
             </Box> 
             <Button type='submit' variant="contained" style={{color:"#fff"}}>Guardar</Button>
          </Box>
-      </div>
    )
 }

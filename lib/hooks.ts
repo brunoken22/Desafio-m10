@@ -4,7 +4,7 @@ import { fetchAPI, fetchApiAuth } from './api';
 
 export function useProduct(productId: any) {
   const { data, error, isLoading } = useSWRImmutable(productId, fetchAPI);
-  return data;
+  return { data, isLoading };
 }
 
 export function search(searchParams: any) {
@@ -14,7 +14,7 @@ export function search(searchParams: any) {
     fetchAPI
   );
 
-  return data;
+  return { data, isLoading };
 }
 
 export function useAuth(dataForm: any) {
@@ -41,10 +41,7 @@ export function useToken(dataForm: any) {
     body: JSON.stringify(dataForm)
   };
 
-  const { data, error, isLoading } = useSWRImmutable(
-    dataForm.code ? [api, option] : null,
-    fetchApiAuth
-  );
+  const { data, error, isLoading } = useSWR(dataForm.code ? [api, option] : null, fetchApiAuth);
   return { token: data, errorToken: error, isLoading };
 }
 
@@ -58,7 +55,7 @@ export function useMe(token: any) {
     }
   };
 
-  const { data, error, isLoading } = useSWRImmutable(token ? [api, option] : null, fetchApiAuth);
+  const { data, error, isLoading } = useSWR(token ? [api, option] : null, fetchApiAuth);
   return { data, error, isLoading };
 }
 

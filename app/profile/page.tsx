@@ -3,7 +3,7 @@ import { Perfil } from "@/components/profile";
 
 export default function Profile(){
    return (
-      <div>
+      <div style={{display: "flex",justifyContent:"center",flexDirection: "column",alignItems:"center"}}>
          < Perfil/>
       </div>
    )

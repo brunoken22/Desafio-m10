@@ -7,16 +7,31 @@ import { FormEvent, useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {useOrder, useProduct} from '@/lib/hooks'
+import { Loader } from '@/ui/loader';
+import styled from "styled-components";
+
+const Div2 = styled.div`
+  position: absolute;
+  top: 40%;
+  right: 40%;
+  left: 50%;
+  bottom: 40%;
+  z-index: 10;
+`
 
 export  default   function ProductId({params}:any){
    const router = useRouter()
    const [product,setProduct] =useState({})
-   const data = useProduct("/api/products/"+params.id)
+   const {data,isLoading} = useProduct("/api/products/"+params.id)
    useEffect(() => {
       setProduct(data)
 
    }, [params.id,data]);
 
+   if(isLoading){
+      return (<Div2><Loader/></Div2>) 
+  
+    }
    const handleClick = async(e:FormEvent)=>{
       e.preventDefault()
       const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
@@ -31,7 +46,6 @@ export  default   function ProductId({params}:any){
          <CarouselComp img={data?data.Images:null}/>
          <div style={{display: "flex",
             flexDirection: "column",
-            justifyContent: "space-around",
             gap:"1rem",
             maxWidth:"700px",
             alignItems: "center"}}>
