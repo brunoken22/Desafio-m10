@@ -36,8 +36,8 @@ export  default   function ProductId({params}:any){
       e.preventDefault()
       const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
   
+      // window.open(orderResData.url,'_blank');
       if(orderResData?.url){
-         // window.open(orderResData.url,'_blank');
          router.push(orderResData.url)
       }
    }
