@@ -11,35 +11,28 @@ import { index } from '@/lib/algolia';
 import {useRecoilState} from 'recoil'
 import { destacados } from '@/lib/atom';
 import {Loader} from '@/ui/loader'
+import { search } from '@/lib/hooks'; 
 
 export function Destacados(){
    const [destac,setDestac] = useRecoilState(destacados)
+   const {data,isLoading} = search({q:"copy",limit:4,offset:6})
+
    useEffect(()=>{
-      index.search('',params)
-      .then(({ hits }:any) => {
-         setDestac(hits)
-      })
-      .catch((error:any) => {
-         console.error(error);
-      });
-   },[]) 
-   const params = {
-      hitsPerPage:4, // Número de elementos a obtener
-      page: 0, // Página de resultados (0 para la primera página)
-    };
+     if(data){
+      setDestac(data.results)
+     }
+   },[data])
+
 
    return (
       <div>
          <Subtitle>Productos Destacados</Subtitle>
          <div style={{padding:"1rem",display:"flex",gap:"1rem",flexWrap:"wrap",justifyContent:"center"}}>
-            {destac?.map((el:any,pos)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>})}
+            {destac?destac?.map((el:any,pos:any)=>{ return<Link href={"/product/"+el.objectID} key={pos} style={{textDecoration:"none"}}> <ThemplateDestacados id={el.objectID} price={el["Unit cost"]} title={el.Name} img={el.Images}/></Link>}):null}
          </div>
       </div>
    )
 }
-
-
-
 export function ThemplateDestacados(props:any){
    
    return (

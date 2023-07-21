@@ -48,7 +48,7 @@ export  function Buscador(props:any){
     if (data?.results) {
       props.cambiaremos(data);
     }
-  }, [data,props.nextCambio]);
+  }, [props.nextCambio]);
 
   if(isLoading){
     return (<Div2><Loader/></Div2>) 
