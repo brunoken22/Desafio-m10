@@ -8,7 +8,6 @@ import { useEffect,useState } from 'react';
 import { search } from '@/lib/hooks';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Loader } from '@/ui/loader';
-import { Console } from 'console';
 const Div = styled.div`
    text-align: center;
    display: flex;

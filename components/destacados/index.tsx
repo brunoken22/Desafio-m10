@@ -14,10 +14,6 @@ import {Loader} from '@/ui/loader'
 
 export function Destacados(){
    const [destac,setDestac] = useRecoilState(destacados)
-   const params = {
-      hitsPerPage:4, // Número de elementos a obtener
-      page: 0, // Página de resultados (0 para la primera página)
-    };
    useEffect(()=>{
       index.search('',params)
       .then(({ hits }:any) => {
@@ -27,6 +23,10 @@ export function Destacados(){
          console.error(error);
       });
    },[]) 
+   const params = {
+      hitsPerPage:4, // Número de elementos a obtener
+      page: 0, // Página de resultados (0 para la primera página)
+    };
 
    return (
       <div>

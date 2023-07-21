@@ -5,6 +5,10 @@ import styled from 'styled-components'
 import {RecoilRoot} from 'recoil';
 import { ThemeProvider as MuiThemeProvider , createTheme  } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
+import { useServerInsertedHTML } from 'next/navigation'
+import { useState } from "react";
+
 const StyledTheme = {
    bg: "#121212",
    color:"#fff"
@@ -28,8 +32,19 @@ const Div = styled.div`
 `
 
 export function MainLayout({children}:any){
+   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
+ 
+  useServerInsertedHTML(() => {
+    const styles = styledComponentsStyleSheet.getStyleElement()
+    styledComponentsStyleSheet.instance.clearTag()
+    return <>{styles}</>
+  })
+ 
+//   if (typeof window !== 'undefined') return <>{children}</>
    return(
+         
       <RecoilRoot >
+         <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
          <StyledThemeProvider theme={StyledTheme}>
             <MuiThemeProvider theme={muiTheme}>
                <ResponsiveAppBar/>
@@ -41,6 +56,7 @@ export function MainLayout({children}:any){
                <Footer/>
             </MuiThemeProvider> 
          </StyledThemeProvider>
+         </StyleSheetManager>
       </RecoilRoot>
    )
 }
