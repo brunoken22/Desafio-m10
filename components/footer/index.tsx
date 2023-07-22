@@ -16,6 +16,7 @@ const Enla = styled.a`
    text-decoration: none;
    color:#fff;
 `
+
 const Div = styled.div<any>`
    display: ${(props):any=>(props.$display) || "block"} ;
    flex-direction:  ${(props):any=>(props.$dire) || "column"};
@@ -30,30 +31,27 @@ const Div = styled.div<any>`
    }
 `
 
-const Parra= styled.p`
-  text-align: center;
-  font-size:1.3rem
-`
+
 export  function Footer(){
 
-   return(
-      <Footerr >
-         <Div $display="flex" $dire="row" $aling="center">
-            <Div $display="flex" >
-                  <Link href={"/signin"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Login</Body></Link>
-                  <Link href={"/profile"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Mi Perfil</Body></Link>
-                  <Link href={"/search"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Buscar</Body></Link>
-            </Div>
-            <Div $display="flex" >
-               <Parra> Redes</Parra>
-               <Enla href={"#"}><Body><Facebook/>Facebook</Body></Enla>
-               <Enla href={"https://www.linkedin.com/in/brunoken18/"}><Body><Linkedin/> Linkedin</Body></Enla>
-               <Enla href={"https://github.com/brunoken22"}><Body><Github/> GitGub</Body></Enla>
-            </Div>
+return(
+   <Footerr >
+      <Div $display="flex" $dire="row" $aling="center">
+         <Div $display="flex" >
+               <Link href={"/signin"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Login</Body></Link>
+               <Link href={"/profile"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Mi Perfil</Body></Link>
+               <Link href={"/search"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Buscar</Body></Link>
          </Div>
-         <Div>
-            <Body>@2023 <strong>Bruno ken</strong></Body>
+         <Div $display="flex" >
+            <Body> Redes</Body>
+            <Enla href={"#"}><Body><Facebook/>Facebook</Body></Enla>
+            <Enla href={"https://www.linkedin.com/in/brunoken18/"}><Body><Linkedin/> Linkedin</Body></Enla>
+            <Enla href={"https://github.com/brunoken22"}><Body><Github/> GitGub</Body></Enla>
          </Div>
-      </Footerr>
-   )
+      </Div>
+      <Div>
+         <Body>@2023 <strong>Bruno ken</strong></Body>
+      </Div>
+   </Footerr>
+)
 }
