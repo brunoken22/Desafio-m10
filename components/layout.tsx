@@ -47,10 +47,10 @@ export function MainLayout({children}:any){
                <MuiThemeProvider theme={muiTheme}>
                   <ResponsiveAppBar/>
                </MuiThemeProvider> 
-                     <Div>
-                        {children}
-                     </Div>
-                  <MuiThemeProvider theme={muiTheme}>
+                  <Div>
+                     {children}
+                  </Div>
+               <MuiThemeProvider theme={muiTheme}>
                   <Footer/>
                </MuiThemeProvider> 
             </StyledThemeProvider>
