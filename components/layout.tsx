@@ -43,15 +43,17 @@ export function MainLayout({children}:any){
          
       <RecoilRoot >
          <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-         <StyledThemeProvider theme={StyledTheme}>
-            <MuiThemeProvider theme={muiTheme}>
-               <ResponsiveAppBar/>
-            </MuiThemeProvider> 
-                  <Div>
-                     {children}
-                  </Div>
-               <Footer/>
-         </StyledThemeProvider>
+            <StyledThemeProvider theme={StyledTheme}>
+               <MuiThemeProvider theme={muiTheme}>
+                  <ResponsiveAppBar/>
+               </MuiThemeProvider> 
+                     <Div>
+                        {children}
+                     </Div>
+                  <MuiThemeProvider theme={muiTheme}>
+                  <Footer/>
+               </MuiThemeProvider> 
+            </StyledThemeProvider>
          </StyleSheetManager>
       </RecoilRoot>
    )
