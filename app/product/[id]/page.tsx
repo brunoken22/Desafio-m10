@@ -3,8 +3,7 @@ import { CarouselComp } from "@/components/carousel"
 import { Body, Subtitle } from "@/ui/typography"
 import Button from "@mui/material/Button"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { FormEvent, useEffect } from "react";
-import { useState } from "react";
+import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {useOrder, useProduct} from '@/lib/hooks'
 import { Loader } from '@/ui/loader';
@@ -21,13 +20,7 @@ const Div2 = styled.div`
 
 export  default   function ProductId({params}:any){
    const router = useRouter()
-   const [product,setProduct] =useState({})
-   const {data,isLoading} = useProduct("/api/products/"+params.id)
-   useEffect(() => {
-      setProduct(data)
-
-   }, [params.id,data]);
-
+   const {data,isLoading} = useProduct(params.id)
    if(isLoading){
       return (<Div2><Loader/></Div2>) 
   
@@ -35,8 +28,6 @@ export  default   function ProductId({params}:any){
    const handleClick = async(e:FormEvent)=>{
       e.preventDefault()
       const orderResData=await useOrder(localStorage?.getItem("token")||"",params.id)
-  
-      // window.open(orderResData.url,'_blank');
       if(orderResData?.url){
          router.push(orderResData.url)
       }

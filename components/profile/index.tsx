@@ -6,11 +6,11 @@ import { useMe, useModMe } from "@/lib/hooks";
 import {Loader} from '@/ui/loader'
 
 export function Perfil(){
-   const {  data, error, isLoading}=useMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null)
+   const {data}=useMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null)
    
    const [dataInfo,setDataInfo] = useState({email:"",name:"",direccion:"",telefono:""})
    const [modData,setModData] = useState({data:{email:"",name:"",direccion:"",telefono:""},authId:""})
-   const { modResData,modResError,modResLoading}=useModMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,modData)
+   const { modResData,modResLoading}=useModMe(typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,modData)
    
    useEffect(()=>{
       if(modResData?.email){

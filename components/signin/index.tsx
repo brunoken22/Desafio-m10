@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Button } from '@mui/material';
+import Button  from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import { useAuth,useToken } from '@/lib/hooks';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -22,7 +22,7 @@ export  function FormularioSignin() {
       message:""
    })
    const [code,setCode] = useState("")
-   const {token,errorToken,isLoading} =useToken({code, email:data.email})
+   const {token,isLoading} =useToken({code, email:data.email})
    const darCod =useAuth(data)
    useEffect(()=>{
       if(token?.messsage == 'Accedistes'){
@@ -101,12 +101,11 @@ export  function FormularioSignin() {
                   label="Código"
                   type='number'
                   variant="standard"
-                  // onChange={(e:any)=>e.target.value.length  == 5 ? setCode(e.target.value):e.target.value}
                   fullWidth
                   required
                />
             </Box>
-            <p>Te envíamos un código a tu mail</p>
+            <p>Te envíamos un código a tu mail <br></br>{dataUser?dataUser.email:null}</p>
          <Button type='submit' variant="contained" style={{color:"#fff"}}>Ingresar</Button>
          </Box>:null}
       </>

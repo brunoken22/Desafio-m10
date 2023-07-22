@@ -5,7 +5,6 @@ import { ThemplateDestacados } from '@/components/destacados';
 import Link from 'next/link';
 import Button from '@mui/material/Button';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Loader } from '@/ui/loader';
 
 export default function Search({params}:any){
    const [nextCambio,setNextCambio] = useState(false)

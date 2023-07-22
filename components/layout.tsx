@@ -27,7 +27,6 @@ const StyledTheme = {
 const Div = styled.div`
    padding: 1.5rem;
    display: grid;
-   /* grid-template-rows: auto 1fr; */
    row-gap: 5rem;
 `
 
@@ -40,7 +39,6 @@ export function MainLayout({children}:any){
     return <>{styles}</>
   })
  
-//   if (typeof window !== 'undefined') return <>{children}</>
    return(
          
       <RecoilRoot >
@@ -52,9 +50,7 @@ export function MainLayout({children}:any){
                   <Div>
                      {children}
                   </Div>
-            <MuiThemeProvider theme={muiTheme}>      
                <Footer/>
-            </MuiThemeProvider> 
          </StyledThemeProvider>
          </StyleSheetManager>
       </RecoilRoot>

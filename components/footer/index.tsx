@@ -30,8 +30,9 @@ const Div = styled.div<any>`
    }
 `
 
-const H4 = styled.h4`
+const Parra= styled.p`
   text-align: center;
+  font-size:1.3rem
 `
 export  function Footer(){
 
@@ -44,7 +45,7 @@ export  function Footer(){
                   <Link href={"/search"} style={{textDecoration:"none" ,color:"inherit"}}><Body>Buscar</Body></Link>
             </Div>
             <Div $display="flex" >
-               <H4> Redes</H4>
+               <Parra> Redes</Parra>
                <Enla href={"#"}><Body><Facebook/>Facebook</Body></Enla>
                <Enla href={"https://www.linkedin.com/in/brunoken18/"}><Body><Linkedin/> Linkedin</Body></Enla>
                <Enla href={"https://github.com/brunoken22"}><Body><Github/> GitGub</Body></Enla>

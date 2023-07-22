@@ -1,24 +1,19 @@
-import { atom } from 'recoil';
-
-export const destacados = atom({
-  key: 'destacados',
-  default: []
-});
+import { atom } from "recoil";
 
 export const searchAll = atom({
-  key: 'search',
-  default: {
-    results: [],
-    pagination: {}
-  }
+   key: "search",
+   default: {
+      results: [],
+      pagination: {},
+   },
 });
 
 export const user = atom({
-  key: 'user',
-  default: {
-    email:"",
-    nombre:"",
-    direccion:"",
-    telefono:""
-  }
-})  
+   key: "user",
+   default: {
+      email: "",
+      nombre: "",
+      direccion: "",
+      telefono: "",
+   },
+});

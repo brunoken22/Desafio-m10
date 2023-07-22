@@ -6,7 +6,6 @@ import 'swiper/css/navigation';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 export  function CarouselComp(props:any) {
-
   return (
     <div style={{width:"250px"}}>
       <Swiper 

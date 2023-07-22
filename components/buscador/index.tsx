@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect,useState } from 'react';
 import { search } from '@/lib/hooks';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Loader } from '@/ui/loader';
+
 const Div = styled.div`
    text-align: center;
    display: flex;
@@ -25,10 +25,10 @@ const Div2 = styled.div`
 export  function Buscador(props:any){
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [searchState, setSearchState] = useState({q:"",limit:searchParams.get("limit") || 5,offset:searchParams.get("offset") || 0});
+  const [searchState, setSearchState] = useState({q:'',limit:searchParams.get("limit") || 5,offset:searchParams.get("offset") || 0});
   const [inputValue, setInputValue] = useState(searchParams.get("q") || '');
   const router = useRouter()
-  const {data,isLoading} = search( searchState) 
+  const {data,isLoading} = search( searchState)
 
   useEffect(() => {
     if(props.nextCambio){
@@ -48,12 +48,8 @@ export  function Buscador(props:any){
     if (data?.results) {
       props.cambiaremos(data);
     }
-  }, [props.nextCambio]);
+  }, [data,props.nextCambio]);
 
-  if(isLoading){
-    return (<Div2><Loader/></Div2>) 
-
-  }
   const handlerSubmit = (e: any): any => {
     e.preventDefault(); 
     const value = e.target.search.value;

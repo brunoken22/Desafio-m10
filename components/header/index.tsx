@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,7 +18,6 @@ import styled from 'styled-components'
 import { useEffect } from 'react';
 import {user} from '@/lib/atom'
 import { useRecoilState } from 'recoil';
-import { spawn } from 'child_process';
 
 const Div = styled.div`
   @media(max-width: 900px){
@@ -68,25 +66,8 @@ function ResponsiveAppBar() {
   return (
     <AppBar position="static" color="primary" >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Toolbar disableGutters style={{display:"flex",justifyContent:"space-between"}}>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -98,13 +79,8 @@ function ResponsiveAppBar() {
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+            
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
               transformOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
@@ -124,27 +100,12 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <Link href={"/"}>  <Image
-            src="https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.png"
-            height={60}
-            width={50}
+            src="https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.webp"
             alt='logo'
+            width={55}
+            height={60}
+            objectFit='cover'
           /></Link>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Link href={page.url} key={page.link}>
@@ -162,7 +123,6 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 ,display:"flex",flexDirection:"column",alignItems:"center",gap:"0.5rem"}} >
             <Tooltip title="Configuracion" >
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* <Avatar alt="Bruno Ken" src="https://media.licdn.com/dms/image/D4D03AQGJU199CoxKCw/profile-displayphoto-shrink_800_800/0/1679415835413?e=1694044800&v=beta&t=_zI82x2Z4fPkzG3x7UoXmTwwfVnxzHFpCqISJzt1Jbc" /> */}
                 {dataUser?.email?<Div><Typography  sx={{ my: 2, color: 'white', display: 'block',margin:0,padding:0 ,cursor:"pointer" }}>{data?.email }</Typography></Div>:null}
               </IconButton>
             </Tooltip>
