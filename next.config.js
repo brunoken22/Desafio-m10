@@ -2,6 +2,7 @@
 const withSvgr = require("next-svgr");
 
 const nextConfig = withSvgr({
+  
    images: {
       remotePatterns: [
          {
@@ -10,6 +11,7 @@ const nextConfig = withSvgr({
          },
       ],
    },
+
    compiler: {
       styledComponents: true,
    },
