@@ -11,4 +11,5 @@ export const TempleFavorito = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid #ddd;
 `;

@@ -120,7 +120,7 @@ export function useFavorite(token: string | null, product: string) {
     }),
   };
 
-  const {data} = useSWR(product ? [api, option] : null, fetchApiAuth);
+  const {data} = useSWRImmutable(product ? [api, option] : null, fetchApiAuth);
   return {dataFavorite: data};
 }
 export function useGetAllFavorite(token: string | null) {
