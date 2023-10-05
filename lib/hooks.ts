@@ -1,6 +1,9 @@
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import {fetchApiAuth} from './api';
+import {useRecoilState} from 'recoil';
+import {favoritos} from './atom';
+import {useEffect} from 'react';
 
 export function useProduct(productId: any) {
   const api = '/api/products/' + productId;
@@ -100,11 +103,41 @@ export async function useOrder(token: string, productId: string) {
     },
   };
 
-  // const { data, error, isLoading } = useSWRImmutable(
-  //   token && productId ? [api, option] : null,
-  //   fetchApiAuth
-  // );
-  // return { orderResData: data, modResError: error, modResLoading: isLoading };
   const data = await fetchApiAuth([api, option]);
   return data;
+}
+
+export function useFavorite(token: string | null, product: string) {
+  const api = '/api/me/favoritos';
+  const option = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      id: product,
+    }),
+  };
+
+  const {data} = useSWR(product ? [api, option] : null, fetchApiAuth);
+  return {dataFavorite: data};
+}
+export function useGetAllFavorite(token: string | null) {
+  const [datafavoritos, setDataFavoritos] = useRecoilState(favoritos);
+  const api = '/api/me/favoritos';
+  const option = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const {data} = useSWR(token ? [api, option] : null, fetchApiAuth);
+  useEffect(() => {
+    if (data) {
+      setDataFavoritos(data);
+    }
+  }, [data]);
+  return {dataFavorite: data};
 }

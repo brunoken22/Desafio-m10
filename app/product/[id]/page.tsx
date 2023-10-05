@@ -3,14 +3,40 @@ import {CarouselComp} from '@/components/carousel';
 import {Body, Subtitle} from '@/ui/typography';
 import Button from '@mui/material/Button';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import {FormEvent} from 'react';
+import {FormEvent, useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-import {useOrder, useProduct} from '@/lib/hooks';
+import {useOrder, useProduct, useFavorite} from '@/lib/hooks';
 import {Loader} from '@/ui/loader';
-
+import StarSVG from '@/ui/icons/star.svg';
+import {StartButton} from '@/ui/buttons';
+import {DivContenedorProduct} from '@/ui/container';
+import {favoritos, Favorito} from '@/lib/atom';
+import {useRecoilValue} from 'recoil';
 export default function ProductId({params}: any) {
   const router = useRouter();
+  const datafavoritos = useRecoilValue(favoritos);
   const {data, isLoading} = useProduct(params.id);
+  const [id, setId] = useState('');
+  const [favorito, setfavorito] = useState(false);
+
+  const token =
+    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null;
+  useFavorite(token, id);
+  useEffect(() => {
+    if (datafavoritos) {
+      const isfavorito = datafavoritos.find((e: Favorito) => e.id == params.id);
+      if (isfavorito) {
+        setfavorito(true);
+        return;
+      }
+      setfavorito(false);
+    }
+  }, [datafavoritos]);
+  useEffect(() => {
+    if (id) {
+      setId('');
+    }
+  }, [id]);
   if (isLoading) {
     return <Loader />;
   }
@@ -24,6 +50,12 @@ export default function ProductId({params}: any) {
       router.push(orderResData.url);
     }
   };
+  const handleFavorite = (e: FormEvent) => {
+    e.preventDefault();
+    setfavorito(!favorito);
+    setId(params.id);
+  };
+
   return (
     <div
       style={{
@@ -36,17 +68,13 @@ export default function ProductId({params}: any) {
         alignItems: 'center',
       }}>
       <CarouselComp img={data ? data.Images : null} />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          maxWidth: '700px',
-          alignItems: 'center',
-        }}>
+      <DivContenedorProduct>
         <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
           <Subtitle>{data ? data.Name : null}</Subtitle>
           <Subtitle>${data ? data['Unit cost'] : null}</Subtitle>
+          <StartButton onClick={handleFavorite} $favorite={favorito}>
+            <StarSVG />
+          </StartButton>
         </div>
         <Button variant='contained' onClick={handleClick}>
           Comprar
@@ -71,7 +99,7 @@ export default function ProductId({params}: any) {
             {data ? data.Description : null}
           </Body>
         </div>
-      </div>
+      </DivContenedorProduct>
     </div>
   );
 }

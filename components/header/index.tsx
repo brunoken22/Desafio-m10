@@ -13,12 +13,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
-import {useMe} from '@/lib/hooks';
+import {useMe, useGetAllFavorite} from '@/lib/hooks';
 import styled from 'styled-components';
 import {useEffect} from 'react';
 import {user} from '@/lib/atom';
 import {useRecoilState} from 'recoil';
-
 const Div = styled.div`
   @media (max-width: 900px) {
     font-size: 1rem;
@@ -31,8 +30,9 @@ const pages = [
 ];
 const settings = [
   {link: 'Perfil', url: '/profile'},
+  {link: 'Favoritos', url: '/favoritos'},
+  // {link: 'Compras', url: '/compras'},
   {link: 'Inicio sesión', url: '/signin'},
-  {link: 'Cerrar sesión'},
 ];
 
 function ResponsiveAppBar() {
@@ -41,7 +41,9 @@ function ResponsiveAppBar() {
   const {data, isLoading} = useMe(
     typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null
   );
-
+  const {dataFavorite} = useGetAllFavorite(
+    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null
+  );
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -210,16 +212,18 @@ function ResponsiveAppBar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}>
-              {settings.map((setting) => (
-                <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
-                  <Link
-                    href={setting.url ? setting.url : ''}
-                    style={{color: 'inherit', textDecoration: 'none'}}
-                    onClick={!setting.url ? handleCerrar : () => {}}>
-                    <Typography textAlign='center'>{setting.link}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              {settings.map((setting) =>
+                data && setting.link !== 'Inicio sesión' ? (
+                  <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
+                    <Link
+                      href={setting.url ? setting.url : ''}
+                      style={{color: 'inherit', textDecoration: 'none'}}
+                      onClick={!setting.url ? handleCerrar : () => {}}>
+                      <Typography textAlign='center'>{setting.link}</Typography>
+                    </Link>
+                  </MenuItem>
+                ) : null
+              )}
             </Menu>
           </Box>
         </Toolbar>
