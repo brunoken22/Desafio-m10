@@ -133,7 +133,10 @@ export function useGetAllFavorite(token: string | null) {
       Authorization: `Bearer ${token}`,
     },
   };
-  const {data} = useSWR(token ? [api, option] : null, fetchApiAuth);
+  const {data} = useSWR(token ? [api, option] : null, fetchApiAuth, {
+    revalidateOnFocus: true,
+    refreshInterval: 3000,
+  });
   useEffect(() => {
     if (data) {
       setDataFavoritos(data);

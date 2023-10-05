@@ -9,5 +9,6 @@ export const DivContainerFavorito = styled.div`
 export const TempleFavorito = styled.div`
   display: flex;
   gap: 1rem;
+  align-items: center;
   justify-content: space-between;
 `;

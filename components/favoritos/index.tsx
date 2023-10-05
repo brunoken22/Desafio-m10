@@ -35,10 +35,12 @@ export function FavoritoComp() {
               width={100}
             />
           </Link>
-          <div>
-            <Subtitle>{favorito.name}</Subtitle>
+          <div style={{textAlign: 'start', width: '100%'}}>
+            <Subtitle style={{textAlign: 'start', fontWeight: '500'}}>
+              {favorito.name}
+            </Subtitle>
             <span>
-              <strong>{favorito.price}</strong>
+              <strong>${favorito.price}</strong>
             </span>
           </div>
           <Button variant='contained' onClick={handleClick} id={favorito.id}>
