@@ -17,7 +17,7 @@ export function FavoritoComp() {
     e.preventDefault();
     const orderResData = await useOrder(
       localStorage?.getItem('token') || '',
-      e.target.id
+      e.currentTarget.id
     );
     if (orderResData?.url) {
       router.push(orderResData.url);
