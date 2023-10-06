@@ -54,6 +54,12 @@ export default function ProductId({params}: any) {
   };
   const handleFavorite = (e: FormEvent) => {
     e.preventDefault();
+    if (!token) {
+      console.log(token);
+      router.push('/signin');
+      return;
+    }
+
     setfavorito(!favorito);
     setId(params.id);
   };

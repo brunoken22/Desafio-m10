@@ -41,7 +41,8 @@ export function FormularioSignin() {
     setData({email: e.target.email.value, name: e.target.name.value});
     const regex =
       /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
-    if (regex.test(data.email)) {
+
+    if (regex.test(e.target.email.value)) {
       setError({
         error: false,
         message: '',

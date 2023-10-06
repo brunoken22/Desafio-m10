@@ -4,4 +4,7 @@ export const Div = styled.div`
   padding: 1.5rem;
   display: grid;
   row-gap: 5rem;
+  position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
 `;
