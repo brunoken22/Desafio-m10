@@ -23,7 +23,7 @@ export function Destacados() {
           flexWrap: 'wrap',
           justifyContent: 'center',
         }}>
-        {false
+        {data
           ? data.results?.map((el: any, pos: any) => {
               return (
                 <Link
