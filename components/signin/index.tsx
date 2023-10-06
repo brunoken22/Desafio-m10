@@ -65,80 +65,89 @@ export function FormularioSignin() {
   return (
     <>
       {!darCod?.data?.code ? (
-        <Box
-          component='form'
-          sx={{'& > :not(style)': {m: 1}}}
-          style={{
-            color: '#000',
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '100%',
-            minWidth: '30%',
-          }}
-          onSubmit={handleSubmit}>
-          <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-            <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}} />
-            <TextField
-              id='name'
-              name='name'
-              label='Nombre'
-              type='text'
-              variant='standard'
-              fullWidth
-              required
-            />
+        <>
+          <h2>Inicio de sesión</h2>
+
+          <Box
+            component='form'
+            sx={{'& > :not(style)': {m: 1}}}
+            style={{
+              color: '#000',
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '100%',
+              minWidth: '30%',
+            }}
+            onSubmit={handleSubmit}>
+            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+              <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}} />
+              <TextField
+                id='name'
+                name='name'
+                label='Nombre'
+                type='text'
+                variant='standard'
+                fullWidth
+                required
+              />
+            </Box>
+            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+              <AlternateEmailIcon
+                sx={{color: 'action.active', mr: 1, my: 0.5}}
+              />
+              <TextField
+                id='email'
+                label='Email'
+                name='email'
+                type='email'
+                variant='standard'
+                error={error.error}
+                helperText={error.message}
+                fullWidth
+                required
+              />
+            </Box>
+            <Button type='submit' variant='contained' style={{color: '#fff'}}>
+              Ingresar
+            </Button>
           </Box>
-          <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-            <AlternateEmailIcon sx={{color: 'action.active', mr: 1, my: 0.5}} />
-            <TextField
-              id='email'
-              label='Email'
-              name='email'
-              type='email'
-              variant='standard'
-              error={error.error}
-              helperText={error.message}
-              fullWidth
-              required
-            />
-          </Box>
-          <Button type='submit' variant='contained' style={{color: '#fff'}}>
-            Ingresar
-          </Button>
-        </Box>
+        </>
       ) : null}
       {darCod?.data?.code ? (
-        <Box
-          component='form'
-          sx={{'& > :not(style)': {m: 1}}}
-          style={{
-            color: '#000',
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '100%',
-            minWidth: '30%',
-          }}
-          onSubmit={handleSubmitCode}>
-          <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-            <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}} />
-            <TextField
-              id='code'
-              name='code'
-              label='Código'
-              type='number'
-              variant='standard'
-              fullWidth
-              required
-            />
+        <>
+          <h2>Inicio de sesión</h2>
+          <Box
+            component='form'
+            sx={{'& > :not(style)': {m: 1}}}
+            style={{
+              color: '#000',
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '100%',
+              minWidth: '30%',
+            }}
+            onSubmit={handleSubmitCode}>
+            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+              <AccountCircle sx={{color: 'action.active', mr: 1, my: 0.5}} />
+              <TextField
+                id='code'
+                name='code'
+                label='Código'
+                type='number'
+                variant='standard'
+                fullWidth
+                required
+              />
+            </Box>
+            <p style={{textAlign: 'center'}}>
+              Te envíamos un código a tu mail <br></br>
+              <span style={{color: '#6435d1'}}>{data ? data.email : null}</span>
+            </p>
+            <Button type='submit' variant='contained' style={{color: '#fff'}}>
+              Ingresar
+            </Button>
           </Box>
-          <p>
-            Te envíamos un código a tu mail <br></br>
-            {dataUser ? dataUser.email : null}
-          </p>
-          <Button type='submit' variant='contained' style={{color: '#fff'}}>
-            Ingresar
-          </Button>
-        </Box>
+        </>
       ) : null}
     </>
   );
