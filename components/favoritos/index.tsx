@@ -19,7 +19,9 @@ export function FavoritoComp() {
   const [id, setId] = useState('');
   const [favorito, setfavorito] = useState(false);
   const token =
-    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null;
+    typeof localStorage !== 'undefined'
+      ? localStorage?.getItem('tokenEcommerce')
+      : null;
   const {dataFavorite} = useFavorite(token, id);
   useEffect(() => {
     if (dataFavorite) {
@@ -29,7 +31,7 @@ export function FavoritoComp() {
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
     const orderResData = await useOrder(
-      localStorage?.getItem('token') || '',
+      localStorage?.getItem('tokenEcommerce') || '',
       e.currentTarget.id
     );
     if (orderResData?.url) {
@@ -53,6 +55,7 @@ export function FavoritoComp() {
               alt={favorito.name}
               height={100}
               width={100}
+              style={{objectFit: 'contain'}}
             />
           </Link>
           <div style={{textAlign: 'start', width: '100%'}}>
@@ -65,7 +68,7 @@ export function FavoritoComp() {
             </Link>
 
             <span>
-              <strong>${favorito.price}</strong>
+              <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
             </span>
           </div>
           <Button variant='contained' onClick={handleClick} id={favorito.id}>

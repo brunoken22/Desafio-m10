@@ -20,7 +20,9 @@ export default function ProductId({params}: any) {
   const [favorito, setfavorito] = useState(false);
 
   const token =
-    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null;
+    typeof localStorage !== 'undefined'
+      ? localStorage?.getItem('tokenEcommerce')
+      : null;
   useFavorite(token, id);
   useEffect(() => {
     if (datafavoritos) {

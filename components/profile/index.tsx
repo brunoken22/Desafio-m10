@@ -8,7 +8,9 @@ import {Loader} from '@/ui/loader';
 
 export function Perfil() {
   const {data} = useMe(
-    typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('tokenEcommerce')
+      : null
   );
 
   const [dataInfo, setDataInfo] = useState({
@@ -22,7 +24,9 @@ export function Perfil() {
     authId: '',
   });
   const {modResData, modResLoading} = useModMe(
-    typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null,
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('tokenEcommerce')
+      : null,
     modData
   );
 

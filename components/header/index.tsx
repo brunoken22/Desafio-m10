@@ -39,10 +39,14 @@ function ResponsiveAppBar() {
   const [dataUser, setDataUser] = useRecoilState(user);
 
   const {data, isLoading} = useMe(
-    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null
+    typeof localStorage !== 'undefined'
+      ? localStorage?.getItem('tokenEcommerce')
+      : null
   );
   const {dataFavorite} = useGetAllFavorite(
-    typeof localStorage !== 'undefined' ? localStorage?.getItem('token') : null
+    typeof localStorage !== 'undefined'
+      ? localStorage?.getItem('tokenEcommerce')
+      : null
   );
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -58,7 +62,8 @@ function ResponsiveAppBar() {
 
   const handleCerrar = (e: any) => {
     e.preventDefault();
-    if (typeof localStorage !== 'undefined') localStorage?.removeItem('token');
+    if (typeof localStorage !== 'undefined')
+      localStorage?.removeItem('tokenEcommerce');
     location.reload();
   };
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

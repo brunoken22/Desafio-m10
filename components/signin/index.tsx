@@ -29,7 +29,7 @@ export function FormularioSignin() {
     if (token?.messsage == 'Accedistes') {
       setDataUser(token);
       router.push('/profile');
-      localStorage.setItem('token', token.token.tokenGen);
+      localStorage.setItem('tokenEcommerce', token.token.tokenGen);
       localStorage.setItem('authId', token.token.authId);
     }
   }, [token]);
