@@ -68,6 +68,7 @@ export function ThemplateDestacados(props: any) {
             image={props.img[0].url}
             alt='x'
             loading='lazy'
+            sx={{objectFit: 'contain'}}
           />
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
