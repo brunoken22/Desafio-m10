@@ -71,7 +71,11 @@ export function FavoritoComp() {
               <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
             </span>
           </div>
-          <Button variant='contained' onClick={handleClick} id={favorito.id}>
+          <Button
+            variant='contained'
+            onClick={handleClick}
+            id={favorito.id}
+            size='medium'>
             Comprar
           </Button>
           <IconButton
