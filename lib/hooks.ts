@@ -5,6 +5,9 @@ import {useRecoilState} from 'recoil';
 import {favoritos} from './atom';
 import {useEffect} from 'react';
 
+type Order = {
+  cantidad?: number;
+};
 export function useProduct(productId: any) {
   const api = '/api/products/' + productId;
 
@@ -27,7 +30,7 @@ export function search(searchParams: any) {
 export function useAuth(dataForm: any) {
   const api = '/api/auth';
   const option = {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -44,7 +47,7 @@ export function useAuth(dataForm: any) {
 export function useToken(dataForm: any) {
   const api = '/api/auth/token';
   const option = {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -61,7 +64,7 @@ export function useToken(dataForm: any) {
 export function useMe(token: any) {
   const api = '/api/me';
   const option = {
-    method: 'get',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -93,7 +96,7 @@ export function useModMe(token: any, newData: any) {
   return {modResData: data, modResError: error, modResLoading: isLoading};
 }
 
-export async function useOrder(token: string, productId: string) {
+export async function useOrder(token: string, productId: string, info?: Order) {
   const api = '/api/order?productId=' + productId;
   const option = {
     method: 'POST',
@@ -101,6 +104,7 @@ export async function useOrder(token: string, productId: string) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify(info),
   };
 
   const data = await fetchApiAuth([api, option]);

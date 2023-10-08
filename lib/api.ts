@@ -1,7 +1,8 @@
 export async function fetchApiAuth(api: any) {
   const option = api[1] || {};
+
   if (api) {
-    if (true) {
+    try {
       const response = await fetch(
         'https://desafio-m9-two.vercel.app' + api[0],
         option
@@ -10,7 +11,10 @@ export async function fetchApiAuth(api: any) {
       if (data) {
         return data;
       }
-      throw 'Algo salió +mal';
+    } catch (e) {
+      console.log(e);
+
+      return 'Algo salió mal';
     }
   }
 }

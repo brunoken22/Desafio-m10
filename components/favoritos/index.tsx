@@ -2,7 +2,7 @@
 
 import {useRecoilValue} from 'recoil';
 import {favoritos, Favorito} from '@/lib/atom';
-import {DivContainerFavorito, TempleFavorito} from './styled';
+import {DivContainerFavorito, TempleFavorito, DivIconEliminar} from './styled';
 import {Subtitle, Title} from '@/ui/typography';
 import Button from '@mui/material/Button';
 import {useOrder} from '@/lib/hooks';
@@ -12,12 +12,19 @@ import Link from 'next/link';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useFavorite} from '@/lib/hooks';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Select from '@mui/material/Select/Select';
 
 export function FavoritoComp() {
   const router = useRouter();
   const datafavoritos = useRecoilValue(favoritos);
   const [id, setId] = useState('');
   const [favorito, setfavorito] = useState(false);
+  const [cantidadProduct, setCantidadProduct] = useState(1);
+
   const token =
     typeof localStorage !== 'undefined'
       ? localStorage?.getItem('tokenEcommerce')
@@ -32,7 +39,10 @@ export function FavoritoComp() {
     e.preventDefault();
     const orderResData = await useOrder(
       localStorage?.getItem('tokenEcommerce') || '',
-      e.currentTarget.id
+      e.currentTarget.id,
+      {
+        cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
+      }
     );
     if (orderResData?.url) {
       router.push(orderResData.url);
@@ -58,19 +68,39 @@ export function FavoritoComp() {
               style={{objectFit: 'contain'}}
             />
           </Link>
-          <div style={{textAlign: 'start', width: '100%'}}>
+          <div style={{width: '100%'}}>
             <Link
               href={'/product/' + favorito.id}
               style={{color: 'inherit', textDecoration: 'none'}}>
-              <Subtitle style={{textAlign: 'start', fontWeight: '500'}}>
-                {favorito.name}
-              </Subtitle>
+              <h3 style={{fontWeight: '500'}}>{favorito.name}</h3>
             </Link>
-
             <span>
               <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
             </span>
           </div>
+          <Box
+            component='form'
+            sx={{
+              '& .MuiTextField-root': {m: 1, width: '70px'},
+            }}
+            noValidate
+            autoComplete='off'>
+            <InputLabel id='demo-simple-select-label'>Cantidad</InputLabel>
+            <Select
+              value={cantidadProduct}
+              label='Cantidad'
+              onChange={(e: any) => setCantidadProduct(e.target.value)}>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={6}>6</MenuItem>
+              <MenuItem value={7}>7</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={9}>9</MenuItem>
+            </Select>
+          </Box>
           <Button
             variant='contained'
             onClick={handleClick}
@@ -78,13 +108,15 @@ export function FavoritoComp() {
             size='medium'>
             Comprar
           </Button>
-          <IconButton
-            id={favorito.id}
-            aria-label='delete'
-            size='large'
-            onClick={handleFavorite}>
-            <DeleteIcon />
-          </IconButton>
+          <DivIconEliminar>
+            <IconButton
+              id={favorito.id}
+              aria-label='delete'
+              size='large'
+              onClick={handleFavorite}>
+              <DeleteIcon />
+            </IconButton>
+          </DivIconEliminar>
         </TempleFavorito>
       ))}
     </DivContainerFavorito>
