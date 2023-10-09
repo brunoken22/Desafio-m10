@@ -12,12 +12,18 @@ import {StartButton} from '@/ui/buttons';
 import {DivContenedorProduct} from '@/ui/container';
 import {favoritos, Favorito} from '@/lib/atom';
 import {useRecoilValue} from 'recoil';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import InputLabel from '@mui/material/InputLabel/InputLabel';
+import Select from '@mui/material/Select/Select';
+import Box from '@mui/material/Box/Box';
+import {DivCantidadCompra, DivProductId} from '@/components/productoId/styled';
 export default function ProductId({params}: any) {
   const router = useRouter();
   const datafavoritos = useRecoilValue(favoritos);
   const {data, isLoading} = useProduct(params.id);
   const [id, setId] = useState('');
   const [favorito, setfavorito] = useState(false);
+  const [cantidadProduct, setCantidadProduct] = useState(1);
 
   const token =
     typeof localStorage !== 'undefined'
@@ -46,7 +52,10 @@ export default function ProductId({params}: any) {
     e.preventDefault();
     const orderResData = await useOrder(
       localStorage?.getItem('token') || '',
-      params.id
+      params.id,
+      {
+        cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
+      }
     );
     if (orderResData?.url) {
       router.push(orderResData.url);
@@ -65,16 +74,7 @@ export default function ProductId({params}: any) {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '80%',
-        margin: '0 auto',
-        gap: '2rem',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+    <DivProductId>
       <CarouselComp img={data ? data.Images : null} />
       <DivContenedorProduct>
         <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
@@ -84,18 +84,33 @@ export default function ProductId({params}: any) {
             <StarSVG />
           </StartButton>
         </div>
+        <Box
+          component='form'
+          sx={{
+            '& .MuiTextField-root': {m: 1, width: '70px'},
+          }}
+          noValidate
+          autoComplete='off'>
+          <InputLabel id='demo-simple-select-label'>Cantidad</InputLabel>
+          <Select
+            value={cantidadProduct}
+            label='Cantidad'
+            onChange={(e: any) => setCantidadProduct(e.target.value)}>
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={6}>6</MenuItem>
+            <MenuItem value={7}>7</MenuItem>
+            <MenuItem value={8}>8</MenuItem>
+            <MenuItem value={9}>9</MenuItem>
+          </Select>
+        </Box>
         <Button variant='contained' onClick={handleClick}>
           Comprar
         </Button>
-        <div
-          style={{
-            textAlign: 'start',
-            display: 'flex',
-            flexDirection: 'column',
-            rowGap: ' 1rem',
-            alignItems: 'center',
-            paddingLeft: '1rem',
-          }}>
+        <DivCantidadCompra>
           <Body
             $bg='#169f4e'
             $style={{'align-items': 'center', display: 'flex', gap: '0.2rem'}}>
@@ -106,8 +121,8 @@ export default function ProductId({params}: any) {
             <strong> Sobre este producto: </strong>
             {data ? data.Description : null}
           </Body>
-        </div>
+        </DivCantidadCompra>
       </DivContenedorProduct>
-    </div>
+    </DivProductId>
   );
 }

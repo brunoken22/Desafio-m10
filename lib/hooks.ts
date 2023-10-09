@@ -96,7 +96,7 @@ export function useModMe(token: any, newData: any) {
   return {modResData: data, modResError: error, modResLoading: isLoading};
 }
 
-export async function useOrder(token: string, productId: string, info?: Order) {
+export async function useOrder(token: string, productId: string, info: Order) {
   const api = '/api/order?productId=' + productId;
   const option = {
     method: 'POST',
