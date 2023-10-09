@@ -28,7 +28,7 @@ export default function ProductId({params}: any) {
   const token =
     typeof localStorage !== 'undefined'
       ? localStorage?.getItem('tokenEcommerce')
-      : null;
+      : '';
   useFavorite(token, id);
   useEffect(() => {
     if (datafavoritos) {
@@ -50,7 +50,7 @@ export default function ProductId({params}: any) {
   }
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
-    const orderResData = await useOrder(token, params.id, {
+    const orderResData = await useOrder(token as string, params.id, {
       cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
     });
     if (orderResData?.url) {
