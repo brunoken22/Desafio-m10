@@ -37,6 +37,10 @@ export function FavoritoComp() {
   }, [dataFavorite]);
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!token) {
+      router.push('/signin');
+      return;
+    }
     const orderResData = await useOrder(
       localStorage?.getItem('tokenEcommerce') || '',
       e.currentTarget.id,

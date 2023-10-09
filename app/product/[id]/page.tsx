@@ -50,6 +50,10 @@ export default function ProductId({params}: any) {
   }
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!token) {
+      router.push('/signin');
+      return;
+    }
     const orderResData = await useOrder(token as string, params.id, {
       cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
     });
