@@ -5,6 +5,10 @@ export const DivContainerFavorito = styled.div`
   gap: 1rem;
   flex-direction: column;
   margin: auto;
+  width: 50%;
+  @media (max-width: 700px) {
+    width: 100%;
+  }
 `;
 export const DivIconEliminar = styled.div`
   @media (max-width: 700px) {

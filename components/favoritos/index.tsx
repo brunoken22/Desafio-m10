@@ -17,6 +17,8 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
+import {DivTemplatePreProducLoader} from '../destacados/styled';
+import Card from '@mui/material/Card/Card';
 
 export function FavoritoComp() {
   const router = useRouter();
@@ -58,71 +60,85 @@ export function FavoritoComp() {
     e.currentTarget.id;
     setId(e.currentTarget.id);
   };
-  return datafavoritos ? (
+  return (
     <DivContainerFavorito>
       <Title $bg={'true'}>Favoritos</Title>
-      {datafavoritos.map((favorito: Favorito) => (
-        <TempleFavorito key={favorito.id}>
-          <Link href={'/product/' + favorito.id}>
-            <img
-              src={favorito.img}
-              alt={favorito.name}
-              height={100}
-              width={100}
-              style={{objectFit: 'contain'}}
-            />
-          </Link>
-          <div style={{width: '100%'}}>
-            <Link
-              href={'/product/' + favorito.id}
-              style={{color: 'inherit', textDecoration: 'none'}}>
-              <h3 style={{fontWeight: '500'}}>{favorito.name}</h3>
-            </Link>
-            <span>
-              <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
-            </span>
-          </div>
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': {m: 1, width: '70px'},
-            }}
-            noValidate
-            autoComplete='off'>
-            <InputLabel id='demo-simple-select-label'>Cantidad</InputLabel>
-            <Select
-              value={cantidadProduct}
-              label='Cantidad'
-              onChange={(e: any) => setCantidadProduct(e.target.value)}>
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-            </Select>
-          </Box>
-          <Button
-            variant='contained'
-            onClick={handleClick}
-            id={favorito.id}
-            size='medium'>
-            Comprar
-          </Button>
-          <DivIconEliminar>
-            <IconButton
-              id={favorito.id}
-              aria-label='delete'
-              size='large'
-              onClick={handleFavorite}>
-              <DeleteIcon />
-            </IconButton>
-          </DivIconEliminar>
-        </TempleFavorito>
-      ))}
+      {datafavoritos.length > 0
+        ? datafavoritos.map((favorito: Favorito) => (
+            <TempleFavorito key={favorito.id}>
+              <Link href={'/product/' + favorito.id}>
+                <img
+                  src={favorito.img}
+                  alt={favorito.name}
+                  height={100}
+                  width={100}
+                  style={{objectFit: 'contain'}}
+                />
+              </Link>
+              <div style={{width: '100%'}}>
+                <Link
+                  href={'/product/' + favorito.id}
+                  style={{color: 'inherit', textDecoration: 'none'}}>
+                  <h3 style={{fontWeight: '500'}}>{favorito.name}</h3>
+                </Link>
+                <span>
+                  <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
+                </span>
+              </div>
+              <Box
+                component='form'
+                sx={{
+                  '& .MuiTextField-root': {m: 1, width: '70px'},
+                }}
+                noValidate
+                autoComplete='off'>
+                <InputLabel id='demo-simple-select-label'>Cantidad</InputLabel>
+                <Select
+                  value={cantidadProduct}
+                  label='Cantidad'
+                  onChange={(e: any) => setCantidadProduct(e.target.value)}>
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                  <MenuItem value={7}>7</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
+                  <MenuItem value={9}>9</MenuItem>
+                </Select>
+              </Box>
+              <Button
+                variant='contained'
+                onClick={handleClick}
+                id={favorito.id}
+                size='medium'>
+                Comprar
+              </Button>
+              <DivIconEliminar>
+                <IconButton
+                  id={favorito.id}
+                  aria-label='delete'
+                  size='large'
+                  onClick={handleFavorite}>
+                  <DeleteIcon />
+                </IconButton>
+              </DivIconEliminar>
+            </TempleFavorito>
+          ))
+        : [1, 2, 3, 4, 5].map((e: number) => (
+            <Card
+              key={e}
+              sx={{
+                width: '100%',
+                height: 100,
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}>
+              <DivTemplatePreProducLoader hei='25%'></DivTemplatePreProducLoader>
+              <DivTemplatePreProducLoader hei='65%'></DivTemplatePreProducLoader>
+            </Card>
+          ))}
     </DivContainerFavorito>
-  ) : null;
+  );
 }

@@ -34,3 +34,10 @@ export const DivTemplatePreProduc = styled.div<Template>`
   background-color: #c7c7c7;
   animation: ${template} 3s ease-in 3s infinite normal both;
 `;
+export const DivTemplatePreProducLoader = styled.div<Template>`
+  width: ${({hei}) => hei};
+  height: 90%;
+  margin: auto;
+  background-color: #c7c7c7;
+  animation: ${template} 3s ease-in 3s infinite normal both;
+`;
