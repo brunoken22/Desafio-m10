@@ -50,13 +50,9 @@ export default function ProductId({params}: any) {
   }
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
-    const orderResData = await useOrder(
-      localStorage?.getItem('token') || '',
-      params.id,
-      {
-        cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
-      }
-    );
+    const orderResData = await useOrder(token, params.id, {
+      cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
+    });
     if (orderResData?.url) {
       router.push(orderResData.url);
     }
