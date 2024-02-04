@@ -24,5 +24,5 @@ export const user = atom({
 });
 export const favoritos = atom({
   key: 'favoritos',
-  default: [] as Favorito[],
+  default: ([] as Favorito[]) || false,
 });

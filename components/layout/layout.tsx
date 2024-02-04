@@ -1,5 +1,4 @@
 'use client';
-import {useEffect} from 'react';
 import {ResponsiveAppBar} from '@/components/header';
 import {Footer} from '@/components/footer';
 import {ThemeProvider} from 'styled-components';

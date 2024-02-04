@@ -124,11 +124,10 @@ export function useFavorite(token: string | null, product: string) {
     }),
   };
 
-  const {data} = useSWRImmutable(product ? [api, option] : null, fetchApiAuth);
+  const {data} = useSWR(product ? [api, option] : null, fetchApiAuth);
   return {dataFavorite: data};
 }
 export function useGetAllFavorite(token: string | null) {
-  const [datafavoritos, setDataFavoritos] = useRecoilState(favoritos);
   const api = '/api/me/favoritos';
   const option = {
     method: 'GET',
@@ -137,14 +136,9 @@ export function useGetAllFavorite(token: string | null) {
       Authorization: `Bearer ${token}`,
     },
   };
-  const {data} = useSWR(token ? [api, option] : null, fetchApiAuth, {
+  const {data, isLoading} = useSWR(token ? [api, option] : null, fetchApiAuth, {
     revalidateOnFocus: true,
-    refreshInterval: 3000,
   });
-  useEffect(() => {
-    if (data) {
-      setDataFavoritos(data);
-    }
-  }, [data]);
-  return {dataFavorite: data};
+
+  return {data, isLoading};
 }

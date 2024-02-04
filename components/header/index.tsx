@@ -1,6 +1,4 @@
 'use client';
-import Image from 'next/image';
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,9 +11,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
-import {useMe, useGetAllFavorite} from '@/lib/hooks';
+import {useMe} from '@/lib/hooks';
 import styled from 'styled-components';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {user} from '@/lib/atom';
 import {useRecoilState} from 'recoil';
 const Div = styled.div`
@@ -31,29 +29,20 @@ const pages = [
 const settings = [
   {link: 'Perfil', url: '/profile'},
   {link: 'Favoritos', url: '/favoritos'},
-  // {link: 'Compras', url: '/compras'},
   {link: 'Inicio sesión', url: '/signin'},
 ];
 
 function ResponsiveAppBar() {
   const [dataUser, setDataUser] = useRecoilState(user);
 
-  const {data, isLoading} = useMe(
+  const {data} = useMe(
     typeof localStorage !== 'undefined'
       ? localStorage?.getItem('tokenEcommerce')
       : null
   );
-  const {dataFavorite} = useGetAllFavorite(
-    typeof localStorage !== 'undefined'
-      ? localStorage?.getItem('tokenEcommerce')
-      : null
-  );
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   useEffect(() => {
     if (data?.email) {
       setDataUser(data);
@@ -125,7 +114,7 @@ function ResponsiveAppBar() {
           </Box>
           <Link href={'/'}>
             {' '}
-            <Image
+            <img
               src='https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.webp'
               alt='logo'
               width={55}

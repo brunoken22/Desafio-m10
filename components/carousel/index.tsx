@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation, Pagination, Mousewheel, Keyboard} from 'swiper/modules';
@@ -20,12 +19,7 @@ export function CarouselComp(props: any) {
         style={{height: '300px', width: '100%'}}>
         {props.img?.map((l: any, p: any) => (
           <SwiperSlide key={p} style={{width: '200px'}}>
-            <Image
-              src={l.url}
-              alt='a'
-              fill={true}
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            />
+            <img src={l.url} alt='a' />
           </SwiperSlide>
         ))}
       </Swiper>
