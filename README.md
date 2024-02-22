@@ -1,4 +1,4 @@
-# Desafio M10
+# Desafio M10 (Ecommerce)
 
 ## Cuenta de Mercado Pago de prueba
 
