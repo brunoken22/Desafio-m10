@@ -1,57 +1,50 @@
-'use client';
-import {Body} from '@/ui/typography';
 import Github from '@/ui/icons/github.svg';
 import FacebookSVG from '@/ui/icons/facebook.svg';
 import Linkedin from '@/ui/icons/linkedin.svg';
 import Link from 'next/link';
-import {Footerr, Enla, Div} from './styled';
+import './style.css';
 
 export function Footer() {
   return (
-    <Footerr>
-      <Div $display='flex' $dire='row' $aling='center'>
-        <Div $display='flex'>
-          <Link
-            href={'/signin'}
-            style={{textDecoration: 'none', color: 'inherit'}}>
-            <Body>Login</Body>
+    <footer>
+      <div className='footer_pagination'>
+        <div>
+          <p className='footer_navegation_title'>Navegación</p>
+          <Link href={'/signin'}>
+            <p>Login</p>
           </Link>
-          <Link
-            href={'/profile'}
-            style={{textDecoration: 'none', color: 'inherit'}}>
-            <Body>Mi Perfil</Body>
+          <Link href={'/profile'}>
+            <p>Mi Perfil</p>
           </Link>
-          <Link
-            href={'/search'}
-            style={{textDecoration: 'none', color: 'inherit'}}>
-            <Body>Buscar</Body>
+          <Link href={'/search'}>
+            <p>Buscar</p>
           </Link>
-        </Div>
-        <Div $display='flex'>
-          <Body> Redes</Body>
-          <Enla href={'#'}>
-            <Body>
+        </div>
+        <div>
+          <p className='footer_navegation_title'> Redes</p>
+          <Link href={'#'}>
+            <p>
               <FacebookSVG />
               Facebook
-            </Body>
-          </Enla>
-          <Enla href={'https://www.linkedin.com/in/brunoken18/'}>
-            <Body>
+            </p>
+          </Link>
+          <Link href={'https://www.linkedin.com/in/brunoken18/'}>
+            <p>
               <Linkedin /> Linkedin
-            </Body>
-          </Enla>
-          <Enla href={'https://github.com/brunoken22'}>
-            <Body>
+            </p>
+          </Link>
+          <Link href={'https://github.com/brunoken22'}>
+            <p>
               <Github /> GitGub
-            </Body>
-          </Enla>
-        </Div>
-      </Div>
-      <Div>
-        <Body>
+            </p>
+          </Link>
+        </div>
+      </div>
+      <div>
+        <p className='footer_copy'>
           @2023 <strong>Bruno ken</strong>
-        </Body>
-      </Div>
-    </Footerr>
+        </p>
+      </div>
+    </footer>
   );
 }

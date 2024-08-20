@@ -5,17 +5,22 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
-import {Subtitle} from '@/ui/typography';
 import Link from 'next/link';
 import {search} from '@/lib/hooks';
-import {DivTemplatePreProduc, DivTemPreProdu} from './styled';
+import Box from '@mui/material/Box';
 
 export function Destacados() {
   const {data} = search({q: 'des', limit: 3, offset: 0});
   return (
-    <div>
-      <Subtitle>Productos Destacados</Subtitle>
-      <div
+    <Box alignItems={'center'} sx={{padding: '4rem'}}>
+      <Typography
+        variant='h2'
+        fontSize={'2rem'}
+        fontWeight={'500'}
+        textAlign={'center'}>
+        Productos Destacados
+      </Typography>
+      <Box
         style={{
           padding: '1rem',
           display: 'flex',
@@ -49,12 +54,12 @@ export function Destacados() {
                   flexDirection: 'column',
                 }}
                 key={e}>
-                <DivTemplatePreProduc hei='50%'></DivTemplatePreProduc>
-                <DivTemplatePreProduc hei='30%'></DivTemplatePreProduc>
+                <div></div>
+                <div></div>
               </Card>
             ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 export function ThemplateDestacados(props: any) {

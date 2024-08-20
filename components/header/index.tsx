@@ -12,15 +12,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import {useMe} from '@/lib/hooks';
-import styled from 'styled-components';
 import {useEffect, useState} from 'react';
 import {user} from '@/lib/atom';
 import {useRecoilState} from 'recoil';
-const Div = styled.div`
-  @media (max-width: 900px) {
-    font-size: 1rem;
-  }
-`;
 
 const pages = [
   {link: 'Productos', url: '/search'},
@@ -144,7 +138,7 @@ function ResponsiveAppBar() {
             <Tooltip title='Configuracion'>
               <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                 {dataUser?.email ? (
-                  <Div>
+                  <div>
                     <Typography
                       sx={{
                         my: 2,
@@ -156,7 +150,7 @@ function ResponsiveAppBar() {
                       }}>
                       {data?.email}
                     </Typography>
-                  </Div>
+                  </div>
                 ) : null}
               </IconButton>
             </Tooltip>
@@ -177,7 +171,7 @@ function ResponsiveAppBar() {
               </Link>
             ) : null}
             {data?.email ? (
-              <Div>
+              <div>
                 <Button
                   sx={{
                     my: 2,
@@ -189,7 +183,7 @@ function ResponsiveAppBar() {
                   onClick={handleCerrar}>
                   Cerrar Sesión
                 </Button>{' '}
-              </Div>
+              </div>
             ) : null}
             <Menu
               sx={{mt: '45px'}}

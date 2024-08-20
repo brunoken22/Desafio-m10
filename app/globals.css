@@ -6,7 +6,7 @@
 body {
   display: grid;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr;
 }

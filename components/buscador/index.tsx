@@ -1,5 +1,4 @@
 'use client';
-import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -7,13 +6,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import {useEffect, useState} from 'react';
 import {search} from '@/lib/hooks';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
-
-const Div = styled.div`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 
 export function Buscador(props: any) {
   const pathname = usePathname();
@@ -46,7 +38,7 @@ export function Buscador(props: any) {
         q: inputValue,
       }));
     }
-    if (data?.results) {
+    if (data?.results && props.cambiaremos) {
       props.cambiaremos(data);
     }
   }, [data, props.nextCambio]);
@@ -71,7 +63,7 @@ export function Buscador(props: any) {
   };
 
   return (
-    <Div>
+    <div>
       <Paper
         component='form'
         sx={{
@@ -96,6 +88,6 @@ export function Buscador(props: any) {
           <SearchIcon />
         </IconButton>
       </Paper>
-    </Div>
+    </div>
   );
 }

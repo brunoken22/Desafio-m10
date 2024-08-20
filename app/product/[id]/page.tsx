@@ -1,6 +1,5 @@
 'use client';
 import {CarouselComp} from '@/components/carousel';
-import {Body, Subtitle} from '@/ui/typography';
 import Button from '@mui/material/Button';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import {FormEvent, useState, useEffect} from 'react';
@@ -8,15 +7,15 @@ import {useRouter} from 'next/navigation';
 import {useOrder, useProduct, useFavorite} from '@/lib/hooks';
 import {Loader} from '@/ui/loader';
 import StarSVG from '@/ui/icons/star.svg';
-import {StartButton} from '@/ui/buttons';
-import {DivContenedorProduct} from '@/ui/container';
 import {favoritos, Favorito} from '@/lib/atom';
 import {useRecoilValue} from 'recoil';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
 import Select from '@mui/material/Select/Select';
 import Box from '@mui/material/Box/Box';
-import {DivCantidadCompra, DivProductId} from '@/components/productoId/styled';
+import {Typography} from '@mui/material';
+import './styled.css';
+
 export default function ProductId({params}: any) {
   const router = useRouter();
   const datafavoritos = useRecoilValue(favoritos);
@@ -74,15 +73,33 @@ export default function ProductId({params}: any) {
   };
 
   return (
-    <DivProductId>
+    <div className='container_Productid'>
       <CarouselComp img={data ? data.Images : null} />
-      <DivContenedorProduct>
-        <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-          <Subtitle>{data ? data.Name : null}</Subtitle>
-          <Subtitle>${data ? data['Unit cost'] : null}</Subtitle>
-          <StartButton onClick={handleFavorite} $favorite={favorito}>
+      <Box
+        maxWidth={'579px'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'1rem'}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            position: 'relative',
+          }}>
+          <Typography fontSize={'1.5rem'} variant='h1'>
+            {data ? data.Name : null}
+          </Typography>
+          <Typography fontSize={'1.2rem'} variant='h3'>
+            ${data ? data['Unit cost'] : null}
+          </Typography>
+          <button
+            onClick={handleFavorite}
+            className={`button_productId_favorite ${
+              favorito ? 'productId_favorite_true' : ''
+            }`}>
             <StarSVG />
-          </StartButton>
+          </button>
         </div>
         <Box
           component='form'
@@ -110,19 +127,17 @@ export default function ProductId({params}: any) {
         <Button variant='contained' onClick={handleClick}>
           Comprar
         </Button>
-        <DivCantidadCompra>
-          <Body
-            $bg='#169f4e'
-            $style={{'align-items': 'center', display: 'flex', gap: '0.2rem'}}>
+        <div>
+          <Typography variant='body2'>
             <CheckCircleOutlineIcon />
             {data ? (data['In stock'] ? 'Stock disponible' : null) : null}{' '}
-          </Body>
-          <Body $bg='#000'>
+          </Typography>
+          <Typography variant='body2' fontWeight={'100'}>
             <strong> Sobre este producto: </strong>
             {data ? data.Description : null}
-          </Body>
-        </DivCantidadCompra>
-      </DivContenedorProduct>
-    </DivProductId>
+          </Typography>
+        </div>
+      </Box>
+    </div>
   );
 }

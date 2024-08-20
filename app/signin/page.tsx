@@ -1,9 +1,9 @@
 import {FormularioSignin} from '@/components/signin';
-import {Div} from '@/ui/container';
+import './style.css';
 export default async function Signin() {
   return (
-    <Div>
+    <div className='container_signin'>
       <FormularioSignin />
-    </Div>
+    </div>
   );
 }

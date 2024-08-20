@@ -10,6 +10,7 @@ import {useRouter} from 'next/navigation';
 import {useRecoilState} from 'recoil';
 import {user} from '@/lib/atom';
 import {Loader} from '@/ui/loader';
+import Typography from '@mui/material/Typography';
 
 export function FormularioSignin() {
   const [dataUser, setDataUser] = useRecoilState(user);
@@ -66,8 +67,12 @@ export function FormularioSignin() {
     <>
       {!darCod?.data?.code ? (
         <>
-          <h2>Inicio de sesión</h2>
-
+          <Typography
+            variant='h2'
+            component='h1'
+            sx={{fontSize: '2.5rem', fontWeight: 'bold'}}>
+            Inicio de sesión
+          </Typography>
           <Box
             component='form'
             sx={{'& > :not(style)': {m: 1}}}
