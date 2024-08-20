@@ -1,13 +1,11 @@
 'use client';
 import {Favorito} from '@/lib/atom';
-import {DivContainerFavorito} from './styled';
-import {Title} from '@/ui/typography';
 import {useGetAllFavorite} from '@/lib/hooks';
 import {useEffect, useState} from 'react';
 import {useFavorite} from '@/lib/hooks';
 import {TemplateFavoriteComponent} from '../template';
 import {Card} from '@mui/material';
-import {DivTemplatePreProducLoader} from '../destacados/styled';
+import Typography from '@mui/material/Typography';
 
 export function FavoritoComp() {
   const [id, setId] = useState('');
@@ -29,8 +27,10 @@ export function FavoritoComp() {
   }, [dataFavorite]);
 
   return (
-    <DivContainerFavorito suppressHydrationWarning={true}>
-      <Title $bg={'true'}>Favoritos</Title>
+    <div suppressHydrationWarning={true}>
+      <Typography variant='h1' fontSize={'1.5rem'}>
+        Favoritos
+      </Typography>
       {data?.length && hydrated
         ? data.map((favorito: Favorito) => (
             <TemplateFavoriteComponent
@@ -57,16 +57,12 @@ export function FavoritoComp() {
                   display: 'flex',
                   justifyContent: 'space-between',
                 }}>
-                <DivTemplatePreProducLoader
-                  hei='25%'
-                  suppressHydrationWarning={true}></DivTemplatePreProducLoader>
-                <DivTemplatePreProducLoader
-                  hei='65%'
-                  suppressHydrationWarning={true}></DivTemplatePreProducLoader>
+                <div suppressHydrationWarning={true}></div>
+                <div suppressHydrationWarning={true}></div>
               </Card>
             ))
           : null}
       </>
-    </DivContainerFavorito>
+    </div>
   );
 }
