@@ -6,7 +6,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
 import Button from '@mui/material/Button';
-import {TempleFavorito, DivIconEliminar} from '@/components/favoritos/styled';
 import {FormEvent, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Favorito} from '@/lib/atom';
@@ -43,7 +42,7 @@ export function TemplateFavoriteComponent({
     modId(e.currentTarget.id);
   };
   return (
-    <TempleFavorito key={favorito.id}>
+    <div key={favorito.id}>
       <Link href={'/product/' + favorito.id}>
         <img
           src={favorito.img}
@@ -93,7 +92,7 @@ export function TemplateFavoriteComponent({
         size='medium'>
         Comprar
       </Button>
-      <DivIconEliminar>
+      <div>
         <IconButton
           id={favorito.id}
           aria-label='delete'
@@ -101,7 +100,7 @@ export function TemplateFavoriteComponent({
           onClick={handleFavorite}>
           <DeleteIcon />
         </IconButton>
-      </DivIconEliminar>
-    </TempleFavorito>
+      </div>
+    </div>
   );
 }
