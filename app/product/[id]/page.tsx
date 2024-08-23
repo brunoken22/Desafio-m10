@@ -44,9 +44,7 @@ export default function ProductId({params}: any) {
       setId('');
     }
   }, [id]);
-  if (isLoading) {
-    return <Loader />;
-  }
+
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
     if (!token) {
@@ -63,14 +61,16 @@ export default function ProductId({params}: any) {
   const handleFavorite = (e: FormEvent) => {
     e.preventDefault();
     if (!token) {
-      console.log(token);
       router.push('/signin');
       return;
     }
-
     setfavorito(!favorito);
     setId(params.id);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className='container_Productid'>

@@ -1,0 +1,9 @@
+.imageProduct {
+  object-fit: cover;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .imageProduct {
+    width: 100%;
+  }
+}

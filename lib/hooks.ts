@@ -1,10 +1,6 @@
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import {fetchApiAuth} from './api';
-import {useRecoilState} from 'recoil';
-import {favoritos} from './atom';
-import {useEffect} from 'react';
-
 type Order = {
   cantidad?: number;
 };

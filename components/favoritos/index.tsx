@@ -4,7 +4,7 @@ import {useGetAllFavorite} from '@/lib/hooks';
 import {useEffect, useState} from 'react';
 import {useFavorite} from '@/lib/hooks';
 import {TemplateFavoriteComponent} from '../template';
-import {Card} from '@mui/material';
+import {Box, Card} from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 export function FavoritoComp() {
@@ -28,24 +28,44 @@ export function FavoritoComp() {
 
   return (
     <div suppressHydrationWarning={true}>
-      <Typography variant='h1' fontSize={'1.5rem'}>
+      <Typography
+        variant='h1'
+        sx={{
+          fontWeight: 'bold',
+          textAlign: 'center',
+          fontSize: {
+            xs: '1.5rem',
+            sm: '1rem',
+            md: '2rem',
+            lg: '3rem',
+          },
+        }}>
         Favoritos
       </Typography>
-      {data?.length && hydrated
-        ? data.map((favorito: Favorito) => (
+      {data?.length && hydrated ? (
+        <Box
+          display='flex'
+          alignItems={'center'}
+          justifyContent={'center'}
+          gap={'1.5rem'}
+          flexWrap='wrap'>
+          {data.map((favorito: Favorito) => (
             <TemplateFavoriteComponent
               favorito={favorito}
               key={favorito.id}
               token={token}
               modId={(dataId) => setId(dataId)}
             />
-          ))
-        : !isLoading &&
-          hydrated && (
-            <p style={{textAlign: 'center', marginTop: '1rem'}}>
-              No hay productos
-            </p>
-          )}
+          ))}
+        </Box>
+      ) : (
+        !isLoading &&
+        hydrated && (
+          <p style={{textAlign: 'center', marginTop: '1rem'}}>
+            No hay productos
+          </p>
+        )
+      )}
       <>
         {isLoading && hydrated
           ? [1, 2, 3, 4, 5].map((e: number) => (
