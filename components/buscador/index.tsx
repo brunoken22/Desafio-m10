@@ -17,7 +17,7 @@ export function Buscador(props: any) {
   });
   const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
   const router = useRouter();
-  const {data, isLoading} = search(searchState);
+  const {data} = search(searchState);
 
   useEffect(() => {
     if (props.nextCambio) {

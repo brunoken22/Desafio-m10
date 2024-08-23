@@ -25,6 +25,7 @@ export function FavoritoComp() {
       setId('');
     }
   }, [dataFavorite]);
+  console.log(data);
 
   return (
     <div suppressHydrationWarning={true}>
@@ -42,7 +43,7 @@ export function FavoritoComp() {
         }}>
         Favoritos
       </Typography>
-      {data?.length && hydrated ? (
+      {Array.isArray(data) && data.length && hydrated ? (
         <Box
           display='flex'
           alignItems={'center'}

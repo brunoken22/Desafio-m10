@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 export function Destacados() {
   const {data} = search({q: 'des', limit: 3, offset: 0});
   return (
-    <Box alignItems={'center'} sx={{padding: '4rem'}}>
+    <Box alignItems={'center'} paddingTop={'2rem'}>
       <Typography
         variant='h2'
         fontSize={{

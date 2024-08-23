@@ -46,7 +46,7 @@ export default function Search({params}: any) {
         next={next}></Buscador>
       <div
         style={{
-          padding: '1.5rem',
+          paddingTop: '1.5rem',
           display: 'flex',
           gap: '1.5rem',
           flexDirection: 'column',
