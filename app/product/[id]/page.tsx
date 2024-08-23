@@ -7,7 +7,7 @@ import {useRouter} from 'next/navigation';
 import {useOrder, useProduct, useFavorite} from '@/lib/hooks';
 import {Loader} from '@/ui/loader';
 import StarSVG from '@/ui/icons/star.svg';
-import {favoritos, Favorito} from '@/lib/atom';
+import {favoritos, Favorito, user} from '@/lib/atom';
 import {useRecoilValue} from 'recoil';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import InputLabel from '@mui/material/InputLabel/InputLabel';
@@ -23,6 +23,7 @@ export default function ProductId({params}: any) {
   const [id, setId] = useState('');
   const [favorito, setfavorito] = useState(false);
   const [cantidadProduct, setCantidadProduct] = useState(1);
+  const dataUser = useRecoilValue(user);
 
   const token =
     typeof localStorage !== 'undefined'
@@ -71,6 +72,7 @@ export default function ProductId({params}: any) {
   if (isLoading) {
     return <Loader />;
   }
+  console.log(dataUser);
 
   return (
     <div className='container_Productid'>
@@ -96,7 +98,9 @@ export default function ProductId({params}: any) {
           <button
             onClick={handleFavorite}
             className={`button_productId_favorite ${
-              favorito ? 'productId_favorite_true' : ''
+              dataUser && dataUser.favorite.includes(params.id)
+                ? 'productId_favorite_true'
+                : ''
             }`}>
             <StarSVG />
           </button>

@@ -1,11 +1,12 @@
 'use client';
-import {Favorito} from '@/lib/atom';
+import {Favorito, user} from '@/lib/atom';
 import {useGetAllFavorite} from '@/lib/hooks';
 import {useEffect, useState} from 'react';
 import {useFavorite} from '@/lib/hooks';
 import {TemplateFavoriteComponent} from '../template';
 import {Box, Card} from '@mui/material';
 import Typography from '@mui/material/Typography';
+import {useRecoilValue} from 'recoil';
 
 export function FavoritoComp() {
   const [id, setId] = useState('');
@@ -25,7 +26,6 @@ export function FavoritoComp() {
       setId('');
     }
   }, [dataFavorite]);
-  console.log(data);
 
   return (
     <div suppressHydrationWarning={true}>

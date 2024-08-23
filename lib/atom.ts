@@ -20,6 +20,7 @@ export const user = atom({
     nombre: '',
     direccion: '',
     telefono: '',
+    favorite: [] as string[],
   },
 });
 export const favoritos = atom({
