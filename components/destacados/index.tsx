@@ -15,13 +15,18 @@ export function Destacados() {
     <Box alignItems={'center'} sx={{padding: '4rem'}}>
       <Typography
         variant='h2'
-        fontSize={'2rem'}
+        fontSize={{
+          xs: '1.1rem',
+          sm: '1.3rem',
+          md: '1.6rem',
+          lg: '2rem',
+        }}
         fontWeight={'500'}
         textAlign={'center'}>
         Productos Destacados
       </Typography>
       <Box
-        style={{
+        sx={{
           padding: '1rem',
           display: 'flex',
           gap: '1rem',

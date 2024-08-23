@@ -9,7 +9,16 @@ export default function Home() {
         <Typography
           variant='h1'
           component='h1'
-          sx={{fontWeight: 'bold', textAlign: 'center'}}>
+          sx={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+            fontSize: {
+              xs: '2rem',
+              sm: '3rem',
+              md: '4rem',
+              lg: '5rem',
+            },
+          }}>
           El mejor <br></br>e-commerce
         </Typography>
         <Buscador />
