@@ -7,11 +7,7 @@ import {useMe, useModMe} from '@/lib/hooks';
 import {Loader} from '@/ui/loader';
 
 export function Perfil() {
-  const {data} = useMe(
-    typeof localStorage !== 'undefined'
-      ? localStorage.getItem('tokenEcommerce')
-      : null
-  );
+  const {data} = useMe();
 
   const [dataInfo, setDataInfo] = useState({
     email: '',

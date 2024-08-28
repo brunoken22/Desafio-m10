@@ -29,11 +29,7 @@ const settings = [
 function ResponsiveAppBar() {
   const [dataUser, setDataUser] = useRecoilState(user);
 
-  const {data} = useMe(
-    typeof localStorage !== 'undefined'
-      ? localStorage?.getItem('tokenEcommerce')
-      : null
-  );
+  const {data} = useMe();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
