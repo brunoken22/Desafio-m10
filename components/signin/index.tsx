@@ -27,7 +27,7 @@ export function FormularioSignin() {
   const {token, isLoading} = useToken({code, email: data.email});
   const darCod = useAuth(data);
   useEffect(() => {
-    if (token?.messsage == 'Accedistes') {
+    if (token?.login) {
       setDataUser(token);
       router.push('/profile');
       localStorage.setItem('tokenEcommerce', token.token.tokenGen);
