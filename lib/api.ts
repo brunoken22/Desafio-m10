@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_PORT || 'http://localhost:3001';
+const API_URL = 'http://localhost:3001';
 export async function fetchApiAuth(api: any) {
   const option = api[1] || {};
 
@@ -14,3 +14,4 @@ export async function fetchApiAuth(api: any) {
     }
   }
 }
+// process.env.NEXT_PUBLIC_PORT ||
