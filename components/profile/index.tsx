@@ -19,12 +19,7 @@ export function Perfil() {
     data: {email: '', name: '', direccion: '', telefono: ''},
     authId: '',
   });
-  const {modResData, modResLoading} = useModMe(
-    typeof localStorage !== 'undefined'
-      ? localStorage.getItem('tokenEcommerce')
-      : null,
-    modData
-  );
+  const {modResData, modResLoading} = useModMe(modData);
 
   useEffect(() => {
     if (modResData?.email) {
