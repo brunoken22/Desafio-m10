@@ -5,10 +5,6 @@ import {RecoilRoot} from 'recoil';
 import {createTheme} from '@mui/material/styles';
 import {ThemeProvider as MuiThemeProvider} from '@mui/material/styles';
 import './styled.css';
-const StyledTheme = {
-  bg: '#121212',
-  color: '#fff',
-};
 
 const muiTheme = createTheme({
   palette: {

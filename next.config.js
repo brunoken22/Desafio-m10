@@ -2,7 +2,9 @@
 const withSvgr = require("next-svgr");
 
 const nextConfig = withSvgr({
-  
+
+   crossOrigin: 'anonymous',
+
    images: {
       remotePatterns: [
          {

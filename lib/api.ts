@@ -1,12 +1,10 @@
+const API_URL = process.env.NEXT_PUBLIC_PORT || 'http://localhost:3001';
 export async function fetchApiAuth(api: any) {
   const option = api[1] || {};
 
   if (api) {
     try {
-      const response = await fetch(
-        'https://desafio-m9-two.vercel.app' + api[0],
-        option
-      );
+      const response = await fetch(API_URL + api[0], option);
       const data = await response.json();
       if (data) {
         return data;
@@ -16,5 +14,3 @@ export async function fetchApiAuth(api: any) {
     }
   }
 }
-//'https://desafio-m9-two.vercel.app'
-// http://localhost:3001

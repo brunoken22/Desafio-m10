@@ -31,6 +31,7 @@ export function useAuth(dataForm: any) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(dataForm),
+    credentials: 'include',
   };
 
   const {data, error} = useSWRImmutable(
@@ -48,6 +49,7 @@ export function useToken(dataForm: any) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(dataForm),
+    credentials: 'include',
   };
 
   const {data, error, isLoading} = useSWR(
@@ -57,20 +59,17 @@ export function useToken(dataForm: any) {
   return {token: data, errorToken: error, isLoading};
 }
 
-export function useMe(token: any) {
+export function useMe() {
   const api = '/api/me';
   const option = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
   };
 
-  const {data, error, isLoading} = useSWR(
-    token ? [api, option] : null,
-    fetchApiAuth
-  );
+  const {data, error, isLoading} = useSWR([api, option], fetchApiAuth);
   return {data, error, isLoading};
 }
 
@@ -80,13 +79,13 @@ export function useModMe(token: any, newData: any) {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
     body: JSON.stringify(newData),
   };
 
   const {data, error, isLoading} = useSWRImmutable(
-    token && newData.authId ? [api, option] : null,
+    newData.authId ? [api, option] : null,
     fetchApiAuth
   );
   return {modResData: data, modResError: error, modResLoading: isLoading};
@@ -98,8 +97,8 @@ export async function useOrder(token: string, productId: string, info: Order) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
     body: JSON.stringify(info),
   };
 
@@ -113,8 +112,8 @@ export function useFavorite(token: string | null, product: string) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
     body: JSON.stringify({
       id: product,
     }),
@@ -129,10 +128,10 @@ export function useGetAllFavorite(token: string | null) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
   };
-  const {data, isLoading} = useSWR(token ? [api, option] : null, fetchApiAuth, {
+  const {data, isLoading} = useSWR([api, option], fetchApiAuth, {
     revalidateOnFocus: true,
   });
 

@@ -16,7 +16,7 @@ import Box from '@mui/material/Box/Box';
 import {Typography} from '@mui/material';
 import './styled.css';
 
-export default function ProductId({params}: any) {
+export default function ProductId({params}: any, props: any) {
   const router = useRouter();
   const datafavoritos = useRecoilValue(favoritos);
   const {data, isLoading} = useProduct(params.id);
@@ -72,8 +72,7 @@ export default function ProductId({params}: any) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(dataUser);
-
+  console.log(props.cookie);
   return (
     <div className='container_Productid'>
       <CarouselComp img={data ? data.Images : null} />
