@@ -14,11 +14,9 @@ import Card from '@mui/material/Card';
 import './style.css';
 export function TemplateFavoriteComponent({
   favorito,
-  token,
   modId,
 }: {
   favorito: Favorito;
-  token: string | null;
   modId: (dataId: string) => any;
 }) {
   const router = useRouter();
@@ -26,11 +24,7 @@ export function TemplateFavoriteComponent({
 
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
-    if (!token) {
-      router.push('/signin');
-      return;
-    }
-    const orderResData = await useOrder(token, e.currentTarget.id, {
+    const orderResData = await useOrder(e.currentTarget.id, {
       cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
     });
     if (orderResData?.url) {

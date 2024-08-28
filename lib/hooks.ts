@@ -34,7 +34,7 @@ export function useAuth(dataForm: any) {
     credentials: 'include',
   };
 
-  const {data, error} = useSWRImmutable(
+  const {data} = useSWRImmutable(
     dataForm.email ? [api, option] : null,
     fetchApiAuth
   );
@@ -73,7 +73,7 @@ export function useMe() {
   return {data, error, isLoading};
 }
 
-export function useModMe(token: any, newData: any) {
+export function useModMe(newData: any) {
   const api = '/api/me';
   const option = {
     method: 'PATCH',
@@ -91,7 +91,7 @@ export function useModMe(token: any, newData: any) {
   return {modResData: data, modResError: error, modResLoading: isLoading};
 }
 
-export async function useOrder(token: string, productId: string, info: Order) {
+export async function useOrder(productId: string, info: Order) {
   const api = '/api/order?productId=' + productId;
   const option = {
     method: 'POST',
@@ -106,7 +106,7 @@ export async function useOrder(token: string, productId: string, info: Order) {
   return data;
 }
 
-export function useFavorite(token: string | null, product: string) {
+export function useFavorite(product: string) {
   const api = '/api/me/favoritos';
   const option = {
     method: 'POST',
@@ -122,7 +122,7 @@ export function useFavorite(token: string | null, product: string) {
   const {data} = useSWR(product ? [api, option] : null, fetchApiAuth);
   return {dataFavorite: data};
 }
-export function useGetAllFavorite(token: string | null) {
+export function useGetAllFavorite() {
   const api = '/api/me/favoritos';
   const option = {
     method: 'GET',

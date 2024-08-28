@@ -41,9 +41,9 @@ function ResponsiveAppBar() {
 
   const handleCerrar = (e: any) => {
     e.preventDefault();
-    if (typeof localStorage !== 'undefined')
-      localStorage?.removeItem('tokenEcommerce');
-    location.reload();
+    // if (typeof localStorage !== 'undefined')
+    //   localStorage?.removeItem('tokenEcommerce');
+    // location.reload();
   };
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);

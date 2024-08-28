@@ -30,8 +30,6 @@ export function FormularioSignin() {
     if (token?.login) {
       setDataUser(token);
       router.push('/profile');
-      localStorage.setItem('tokenEcommerce', token.token.tokenGen);
-      localStorage.setItem('authId', token.token.authId);
     }
   }, [token]);
   if (isLoading) {

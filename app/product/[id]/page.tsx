@@ -16,7 +16,7 @@ import Box from '@mui/material/Box/Box';
 import {Typography} from '@mui/material';
 import './styled.css';
 
-export default function ProductId({params}: any, props: any) {
+export default function ProductId({params}: any) {
   const router = useRouter();
   const datafavoritos = useRecoilValue(favoritos);
   const {data, isLoading} = useProduct(params.id);
@@ -25,11 +25,7 @@ export default function ProductId({params}: any, props: any) {
   const [cantidadProduct, setCantidadProduct] = useState(1);
   const dataUser = useRecoilValue(user);
 
-  const token =
-    typeof localStorage !== 'undefined'
-      ? localStorage?.getItem('tokenEcommerce')
-      : '';
-  useFavorite(token, id);
+  useFavorite(id);
   useEffect(() => {
     if (datafavoritos) {
       const isfavorito = datafavoritos.find((e: Favorito) => e.id == params.id);
@@ -48,11 +44,7 @@ export default function ProductId({params}: any, props: any) {
 
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
-    if (!token) {
-      router.push('/signin');
-      return;
-    }
-    const orderResData = await useOrder(token as string, params.id, {
+    const orderResData = await useOrder(params.id, {
       cantidad: cantidadProduct <= 0 ? 1 : Number(cantidadProduct),
     });
     if (orderResData?.url) {
@@ -61,10 +53,6 @@ export default function ProductId({params}: any, props: any) {
   };
   const handleFavorite = (e: FormEvent) => {
     e.preventDefault();
-    if (!token) {
-      router.push('/signin');
-      return;
-    }
     setfavorito(!favorito);
     setId(params.id);
   };
@@ -72,7 +60,6 @@ export default function ProductId({params}: any, props: any) {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(props.cookie);
   return (
     <div className='container_Productid'>
       <CarouselComp img={data ? data.Images : null} />

@@ -6,21 +6,16 @@ import {useFavorite} from '@/lib/hooks';
 import {TemplateFavoriteComponent} from '../template';
 import {Box, Card} from '@mui/material';
 import Typography from '@mui/material/Typography';
-import {useRecoilValue} from 'recoil';
 
 export function FavoritoComp() {
   const [id, setId] = useState('');
-  const token =
-    typeof localStorage !== 'undefined'
-      ? localStorage?.getItem('tokenEcommerce')
-      : null;
-  const {dataFavorite} = useFavorite(token, id);
-  const {data, isLoading} = useGetAllFavorite(token);
+  const {dataFavorite} = useFavorite(id);
+  const {data, isLoading} = useGetAllFavorite();
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
-  });
+  }, []);
   useEffect(() => {
     if (dataFavorite) {
       setId('');
@@ -54,7 +49,6 @@ export function FavoritoComp() {
             <TemplateFavoriteComponent
               favorito={favorito}
               key={favorito.id}
-              token={token}
               modId={(dataId) => setId(dataId)}
             />
           ))}
