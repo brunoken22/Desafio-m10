@@ -57,9 +57,7 @@ export function useToken(dataForm: any) {
     dataForm.code ? [api, option] : null,
     fetchApiAuth
   );
-  if (data.login) {
-    // closeUser();
-  }
+
   return {token: data, errorToken: error, isLoading};
 }
 
