@@ -10,10 +10,6 @@ const nextConfig = withSvgr({
          },
       ],
    },
-   experimental: {
-      serverActions: {
-        allowedOrigins: ['*'],
-      },
-    },
+
 });
 module.exports = nextConfig;
