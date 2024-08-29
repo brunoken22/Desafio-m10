@@ -1,13 +1,14 @@
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import {fetchApiAuth} from './api';
+
 type Order = {
   cantidad?: number;
 };
 export function useProduct(productId: any) {
   const api = '/api/products/' + productId;
 
-  const {data, error, isLoading} = useSWRImmutable(
+  const {data, isLoading} = useSWRImmutable(
     productId ? [api, {}] : null,
     fetchApiAuth
   );
@@ -56,6 +57,9 @@ export function useToken(dataForm: any) {
     dataForm.code ? [api, option] : null,
     fetchApiAuth
   );
+  if (data.login) {
+    // closeUser();
+  }
   return {token: data, errorToken: error, isLoading};
 }
 
@@ -122,6 +126,7 @@ export function useFavorite(product: string) {
   const {data} = useSWR(product ? [api, option] : null, fetchApiAuth);
   return {dataFavorite: data};
 }
+
 export function useGetAllFavorite() {
   const api = '/api/me/favoritos';
   const option = {
@@ -136,4 +141,17 @@ export function useGetAllFavorite() {
   });
 
   return {data, isLoading};
+}
+
+export async function closeUser() {
+  const api = '/api/me/close';
+  const option = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  };
+  const close = await fetchApiAuth([api, option]);
+  return close;
 }

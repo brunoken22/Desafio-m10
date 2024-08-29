@@ -15,6 +15,7 @@ import {useMe} from '@/lib/hooks';
 import {useEffect, useState} from 'react';
 import {user} from '@/lib/atom';
 import {useRecoilState} from 'recoil';
+import {useRouter} from 'next/navigation';
 
 const pages = [
   {link: 'Productos', url: '/search'},
@@ -27,6 +28,7 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
+  const {push} = useRouter();
   const [dataUser, setDataUser] = useRecoilState(user);
 
   const {data} = useMe();
@@ -39,12 +41,6 @@ function ResponsiveAppBar() {
     }
   }, [data, dataUser]);
 
-  const handleCerrar = (e: any) => {
-    e.preventDefault();
-    // if (typeof localStorage !== 'undefined')
-    //   localStorage?.removeItem('tokenEcommerce');
-    // location.reload();
-  };
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -56,6 +52,12 @@ function ResponsiveAppBar() {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleCloseUser = async () => {
+    const closeUser = (await import('@/lib/hooks')).closeUser;
+    await closeUser();
+    push('/signin');
   };
 
   return (
@@ -122,7 +124,6 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-
           <Box
             sx={{
               flexGrow: 0,
@@ -169,16 +170,17 @@ function ResponsiveAppBar() {
             {data?.email ? (
               <div>
                 <Button
+                  onClick={handleCloseUser}
+                  type='submit'
                   sx={{
                     my: 2,
                     color: 'red',
                     display: 'block',
                     margin: 0,
                     padding: 0,
-                  }}
-                  onClick={handleCerrar}>
+                  }}>
                   Cerrar Sesión
-                </Button>{' '}
+                </Button>
               </div>
             ) : null}
             <Menu
@@ -201,8 +203,7 @@ function ResponsiveAppBar() {
                   <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
                     <Link
                       href={setting.url ? setting.url : ''}
-                      style={{color: 'inherit', textDecoration: 'none'}}
-                      onClick={!setting.url ? handleCerrar : () => {}}>
+                      style={{color: 'white'}}>
                       <Typography textAlign='center'>{setting.link}</Typography>
                     </Link>
                   </MenuItem>
