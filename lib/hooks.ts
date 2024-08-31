@@ -1,6 +1,7 @@
 import useSWR, {mutate} from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import {fetchApiAuth} from './api';
+import {useEffect} from 'react';
 
 type Order = {
   cantidad?: number;
@@ -57,15 +58,15 @@ export function useToken(dataForm: any) {
     (api) => fetchApiAuth([api, option])
   );
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (data?.login) {
-  //       await mutate('/api/me');
-  //       const setCookie = (await import('cookies-next')).setCookie;
-  //       setCookie('login', 'true');
-  //     }
-  //   })();
-  // }, [data]);
+  useEffect(() => {
+    (async () => {
+      if (data?.login) {
+        await mutate('/api/me');
+        const setCookie = (await import('cookies-next')).setCookie;
+        setCookie('login', 'true');
+      }
+    })();
+  }, [data]);
   return {token: data, errorToken: error, isLoading};
 }
 
@@ -160,6 +161,9 @@ export async function closeUser() {
     credentials: 'include',
   };
   const close = await fetchApiAuth([api, option]);
-  await mutate('/api/me');
+  if (!close.login) {
+    const deleteCookie = (await import('cookies-next')).deleteCookie;
+    deleteCookie('login');
+  }
   return close;
 }
