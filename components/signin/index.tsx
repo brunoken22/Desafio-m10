@@ -30,7 +30,7 @@ export function FormularioSignin() {
     if (token?.login) {
       setDataUser(token);
       setTimeout(() => {
-        router.push('/profile');
+        router.refresh();
       }, 1000);
     }
   }, [token]);

@@ -58,7 +58,7 @@ function ResponsiveAppBar() {
     const closeUser = (await import('@/lib/hooks')).closeUser;
     await closeUser();
     setTimeout(() => {
-      push('/signin');
+      router.refresh();
     }, 1000);
   };
 
