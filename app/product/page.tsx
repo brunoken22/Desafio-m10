@@ -1,5 +1,5 @@
 import {cookies} from 'next/headers';
 export default function Product() {
-  console.log(cookies().has('token'));
+  console.log(cookies().get('token'));
   return <></>;
 }
