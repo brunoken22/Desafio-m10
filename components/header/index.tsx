@@ -28,7 +28,7 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const {push} = useRouter();
+  const {refresh} = useRouter();
   const [dataUser, setDataUser] = useRecoilState(user);
 
   const {data} = useMe();
@@ -58,7 +58,7 @@ function ResponsiveAppBar() {
     const closeUser = (await import('@/lib/hooks')).closeUser;
     await closeUser();
     setTimeout(() => {
-      router.refresh();
+      refresh();
     }, 1000);
   };
 
