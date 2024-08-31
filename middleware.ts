@@ -2,8 +2,8 @@ import {NextResponse} from 'next/server';
 import type {NextRequest} from 'next/server';
 
 export function middleware(request: NextRequest) {
-  let token = request.cookies.get('login');
-  if (token?.value == 'true') {
+  let token = request.cookies.get('token');
+  if (token?.value) {
     if (request.nextUrl.pathname === '/signin') {
       return NextResponse.redirect(new URL('/', request.url));
     }
@@ -18,7 +18,3 @@ export function middleware(request: NextRequest) {
   }
   return NextResponse.next();
 }
-
-// export const config = {
-//   matcher: '/about/:path*',
-// };
