@@ -57,7 +57,9 @@ function ResponsiveAppBar() {
   const handleCloseUser = async () => {
     const closeUser = (await import('@/lib/hooks')).closeUser;
     await closeUser();
-    push('/signin');
+    setTimeout(() => {
+      push('/signin');
+    }, 5000);
   };
 
   return (

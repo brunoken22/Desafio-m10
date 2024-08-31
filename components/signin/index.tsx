@@ -29,7 +29,9 @@ export function FormularioSignin() {
   useEffect(() => {
     if (token?.login) {
       setDataUser(token);
-      router.push('/profile');
+      setTimeout(() => {
+        router.push('/profile');
+      }, 5000);
     }
   }, [token]);
   if (isLoading) {
