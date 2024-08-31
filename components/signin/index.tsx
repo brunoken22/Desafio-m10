@@ -7,13 +7,13 @@ import {useEffect, useState} from 'react';
 import {useAuth, useToken} from '@/lib/hooks';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import {useRouter} from 'next/navigation';
-import {useRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import {user} from '@/lib/atom';
 import {Loader} from '@/ui/loader';
 import Typography from '@mui/material/Typography';
 
 export function FormularioSignin() {
-  const [dataUser, setDataUser] = useRecoilState(user);
+  const setDataUser = useSetRecoilState(user);
   const router = useRouter();
   const [data, setData] = useState({
     email: '',

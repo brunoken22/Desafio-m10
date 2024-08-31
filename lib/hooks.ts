@@ -1,6 +1,7 @@
-import useSWR from 'swr';
+import useSWR, {mutate} from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import {fetchApiAuth} from './api';
+import {useEffect} from 'react';
 
 type Order = {
   cantidad?: number;
@@ -43,7 +44,6 @@ export function useAuth(dataForm: any) {
 }
 
 export function useToken(dataForm: any) {
-  const api = '/api/auth/token';
   const option = {
     method: 'POST',
     headers: {
@@ -54,15 +54,23 @@ export function useToken(dataForm: any) {
   };
 
   const {data, error, isLoading} = useSWR(
-    dataForm.code ? [api, option] : null,
-    fetchApiAuth
+    dataForm.code ? '/api/auth/token' : null,
+    (api) => fetchApiAuth([api, option])
   );
 
+  useEffect(() => {
+    (async () => {
+      if (data?.login) {
+        await mutate('/api/me');
+        const setCookie = (await import('cookies-next')).setCookie;
+        setCookie('login', 'true');
+      }
+    })();
+  }, [data]);
   return {token: data, errorToken: error, isLoading};
 }
 
 export function useMe() {
-  const api = '/api/me';
   const option = {
     method: 'GET',
     headers: {
@@ -71,7 +79,9 @@ export function useMe() {
     credentials: 'include',
   };
 
-  const {data, error, isLoading} = useSWR([api, option], fetchApiAuth);
+  const {data, error, isLoading} = useSWR('/api/me', (api) =>
+    fetchApiAuth([api, option])
+  );
   return {data, error, isLoading};
 }
 
@@ -151,5 +161,9 @@ export async function closeUser() {
     credentials: 'include',
   };
   const close = await fetchApiAuth([api, option]);
+  if (!close.login) {
+    const deleteCookie = (await import('cookies-next')).deleteCookie;
+    deleteCookie('login');
+  }
   return close;
 }
