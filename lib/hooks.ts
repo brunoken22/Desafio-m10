@@ -162,6 +162,7 @@ export async function closeUser() {
   };
   const close = await fetchApiAuth([api, option]);
   if (!close.login) {
+    await mutate('/api/me');
     const deleteCookie = (await import('cookies-next')).deleteCookie;
     deleteCookie('login');
   }
