@@ -59,7 +59,7 @@ function ResponsiveAppBar() {
     await closeUser();
     setTimeout(() => {
       push('/signin');
-    }, 5000);
+    }, 1000);
   };
 
   return (

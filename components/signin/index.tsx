@@ -31,7 +31,7 @@ export function FormularioSignin() {
       setDataUser(token);
       setTimeout(() => {
         router.push('/profile');
-      }, 5000);
+      }, 1000);
     }
   }, [token]);
   if (isLoading) {
