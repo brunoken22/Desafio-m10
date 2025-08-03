@@ -1,17 +1,18 @@
-import Link from 'next/link';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Select from '@mui/material/Select/Select';
-import Button from '@mui/material/Button';
-import {FormEvent, useState} from 'react';
-import {useRouter} from 'next/navigation';
-import {Favorito} from '@/lib/atom';
-import {useOrder} from '@/lib/hooks';
-import Card from '@mui/material/Card';
-import './style.css';
+import Link from "next/link";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem/MenuItem";
+import Select from "@mui/material/Select/Select";
+import Button from "@mui/material/Button";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Favorito } from "@/lib/atom";
+import { useOrder } from "@/lib/hooks";
+import Card from "@mui/material/Card";
+import "./style.css";
+
 export function TemplateFavoriteComponent({
   favorito,
   modId,
@@ -39,24 +40,25 @@ export function TemplateFavoriteComponent({
   return (
     <Card
       sx={{
-        display: 'flex',
+        display: "flex",
         flexDirection: {
-          xs: 'column',
-          sm: 'row',
-          md: 'row',
-          lg: 'row',
+          xs: "column",
+          sm: "row",
+          md: "row",
+          lg: "row",
         },
         width: {
-          xs: '100%',
-          sm: '100%',
-          md: '650px',
+          xs: "100%",
+          sm: "100%",
+          md: "650px",
         },
-        padding: '0.5rem',
-        alignItems: 'center',
-        gap: '1rem',
+        padding: "0.5rem",
+        alignItems: "center",
+        gap: "1rem",
       }}
-      key={favorito.id}>
-      <Link href={'/product/' + favorito.id} style={{width: '100%'}}>
+      key={favorito.id}
+    >
+      <Link href={"/product/" + favorito.id} style={{ width: "100%" }}>
         <img
           src={favorito.img}
           alt={favorito.name}
@@ -65,43 +67,45 @@ export function TemplateFavoriteComponent({
           className='imageProduct'
         />
       </Link>
-      <div style={{width: '100%'}}>
-        <Link
-          href={'/product/' + favorito.id}
-          style={{color: 'inherit', textDecoration: 'none'}}>
+      <div style={{ width: "100%" }}>
+        <Link href={"/product/" + favorito.id} style={{ color: "inherit", textDecoration: "none" }}>
           <h3
             style={{
-              fontWeight: '500',
-              width: '200px',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
-            }}>
+              fontWeight: "500",
+              width: "200px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             {favorito.name}
           </h3>
         </Link>
         <span>
-          <strong style={{fontWeight: '900'}}>${favorito.price}</strong>
+          <strong style={{ fontWeight: "900" }}>${favorito.price}</strong>
         </span>
       </div>
       <Box
-        display={'flex'}
-        alignItems={'center'}
+        display={"flex"}
+        alignItems={"center"}
         gap='1.5rem'
-        justifyContent={{xs: 'space-between'}}
-        width={{xs: '100%'}}>
+        justifyContent={{ xs: "space-between" }}
+        width={{ xs: "100%" }}
+      >
         <Box
           component='form'
           sx={{
-            '& .MuiTextField-root': {m: 1, width: '70px'},
+            "& .MuiTextField-root": { m: 1, width: "70px" },
           }}
           noValidate
-          autoComplete='off'>
+          autoComplete='off'
+        >
           <InputLabel id='demo-simple-select-label'>Cantidad</InputLabel>
           <Select
             value={cantidadProduct}
             label='Cantidad'
-            onChange={(e: any) => setCantidadProduct(e.target.value)}>
+            onChange={(e: any) => setCantidadProduct(e.target.value)}
+          >
             <MenuItem value={1}>1</MenuItem>
             <MenuItem value={2}>2</MenuItem>
             <MenuItem value={3}>3</MenuItem>
@@ -113,18 +117,10 @@ export function TemplateFavoriteComponent({
             <MenuItem value={9}>9</MenuItem>
           </Select>
         </Box>
-        <Button
-          variant='contained'
-          onClick={handleClick}
-          id={favorito.id}
-          size={'medium'}>
+        <Button variant='contained' onClick={handleClick} id={favorito.id} size={"medium"}>
           Comprar
         </Button>
-        <IconButton
-          id={favorito.id}
-          aria-label='delete'
-          size='large'
-          onClick={handleFavorite}>
+        <IconButton id={favorito.id} aria-label='delete' size='large' onClick={handleFavorite}>
           <DeleteIcon />
         </IconButton>
       </Box>

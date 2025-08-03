@@ -1,95 +1,73 @@
-'use client';
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
-import Link from 'next/link';
-import {search} from '@/lib/hooks';
-import Box from '@mui/material/Box';
+"use client";
+import { Box, Typography, Card, CardContent, CardMedia, useTheme } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import ProductCard from "../template/productCard";
+import { useSearch } from "@/lib/hooks";
 
-export function Destacados() {
-  const {data} = search({q: 'des', limit: 3, offset: 0});
+export function FeaturedProducts() {
+  const theme = useTheme();
+  const { data, isLoading } = useSearch({ q: "des", limit: 3, offset: 0 });
+
   return (
-    <Box alignItems={'center'} paddingTop={'2rem'}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: theme.spacing(4),
+      }}
+    >
       <Typography
         variant='h2'
-        fontSize={{
-          xs: '1.1rem',
-          sm: '1.3rem',
-          md: '1.6rem',
-          lg: '2rem',
+        sx={{
+          fontWeight: 700,
+          textAlign: "center",
+          fontSize: {
+            xs: "1.5rem",
+            sm: "2rem",
+            md: "2.5rem",
+          },
+          color: theme.palette.text.primary,
         }}
-        fontWeight={'500'}
-        textAlign={'center'}>
+      >
         Productos Destacados
       </Typography>
+
       <Box
         sx={{
-          padding: '1rem',
-          display: 'flex',
-          gap: '1rem',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}>
-        {data
-          ? data.results?.map((el: any, pos: any) => {
-              return (
-                <Link
-                  href={'/product/' + el.objectID}
-                  key={pos}
-                  style={{textDecoration: 'none'}}>
-                  {' '}
-                  <ThemplateDestacados
-                    id={el.objectID}
-                    price={el['Unit cost']}
-                    title={el.Name}
-                    img={el.Images}
-                  />
-                </Link>
-              );
-            })
-          : [1, 2, 3].map((e: number) => (
-              <Card
-                sx={{
-                  width: 280,
-                  height: 290,
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-                key={e}>
-                <div></div>
-                <div></div>
-              </Card>
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: theme.spacing(4),
+          px: theme.spacing(2),
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
+        {isLoading || !data
+          ? Array.from({ length: 3 }).map((_, index) => <ProductCardSkeleton key={index} />)
+          : data.results?.map((product: any) => (
+              <ProductCard
+                key={product.objectID}
+                id={product.objectID}
+                price={product["Unit cost"]}
+                title={product.Name}
+                image={product.Images[0]?.url}
+              />
             ))}
       </Box>
     </Box>
   );
 }
-export function ThemplateDestacados(props: any) {
+
+function ProductCardSkeleton() {
   return (
-    <div id={props.id}>
-      <Card sx={{width: 280}}>
-        <CardActionArea>
-          <CardMedia
-            component='img'
-            height='200'
-            image={props.img[0].url}
-            alt='x'
-            loading='lazy'
-            sx={{objectFit: 'contain'}}
-          />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='div'>
-              $ {props.price}
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              {props.title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </div>
+    <Card sx={{ width: 300, height: 350 }}>
+      <Skeleton variant='rectangular' height={220} />
+      <CardContent>
+        <Skeleton variant='text' width='80%' height={32} />
+        <Skeleton variant='text' width='40%' height={28} />
+      </CardContent>
+    </Card>
   );
 }

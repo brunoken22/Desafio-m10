@@ -1,100 +1,193 @@
-'use client';
-import {Buscador} from '@/components/buscador';
-import {useEffect, useState, useRef} from 'react';
-import {ThemplateDestacados} from '@/components/destacados';
-import Link from 'next/link';
-import Button from '@mui/material/Button';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+// app/search/page.tsx
+"use client";
+import { useState, useEffect } from "react";
+import { Box, Button, Typography, CircularProgress, useTheme } from "@mui/material";
+import { NavigateNext, SentimentDissatisfied } from "@mui/icons-material";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSearch } from "@/lib/hooks";
+import ProductCard from "@/components/template/productCard";
+import SearchBar from "@/components/buscador";
 
-export default function Search({params}: any) {
-  const [nextCambio, setNextCambio] = useState(false);
-  const [data, setData] = useState({
-    results: [],
-    pagination: {total: 0, offset: 0, limit: 0},
+export default function SearchPage() {
+  const theme = useTheme();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Parámetros iniciales
+  const initialQuery = searchParams.get("q") || "";
+  const initialLimit = parseInt(searchParams.get("limit") || "12");
+  const initialOffset = parseInt(searchParams.get("offset") || "0");
+
+  // Estado controlado para la búsqueda
+  const [searchState, setSearchState] = useState({
+    query: initialQuery,
+    limit: initialLimit,
+    offset: initialOffset,
+    shouldFetch: !!initialQuery,
   });
-  const btn: any = useRef();
+
+  // Hook de búsqueda
+  const { data, isLoading, error } = useSearch({
+    q: searchState.query,
+    limit: searchState.limit,
+    offset: searchState.offset,
+  });
+
+  // Manejar nueva búsqueda
+  const handleSearchStart = (query: string) => {
+    setSearchState({
+      query,
+      limit: 12,
+      offset: 0,
+      shouldFetch: true,
+    });
+  };
+
+  // Cargar más resultados
+  const handleLoadMore = () => {
+    const newOffset = searchState.offset + searchState.limit;
+    setSearchState((prev) => ({
+      ...prev,
+      offset: newOffset,
+      shouldFetch: true,
+    }));
+    router.push(
+      `/search?q=${encodeURIComponent(searchState.query)}&limit=${
+        searchState.limit
+      }&offset=${newOffset}`
+    );
+  };
+
+  // Efecto para sincronizar con parámetros URL
   useEffect(() => {
-    if (btn.current) {
-      if (
-        data?.results.length + data?.pagination.offset ==
-        data?.pagination.total
-      ) {
-        btn.current.style.display = 'none';
-      } else {
-        btn.current.style.display = 'flex';
-      }
-    }
-  }, [data]);
+    const query = searchParams.get("q") || "";
+    const limit = parseInt(searchParams.get("limit") || "12");
+    const offset = parseInt(searchParams.get("offset") || "0");
 
-  const handleSearchAll = (data: any) => {
-    setData(data);
-  };
+    setSearchState((prev) => ({
+      query,
+      limit,
+      offset,
+      shouldFetch: query !== prev.query || limit !== prev.limit || offset !== prev.offset,
+    }));
+  }, [searchParams]);
 
-  const handleClick = (e: any) => {
-    setNextCambio(true);
-  };
-
-  const next = (data: boolean) => {
-    setNextCambio(data);
-  };
+  const hasMoreResults = data
+    ? (data.results?.length || 0) + searchState.offset < (data.pagination?.total || 0)
+    : false;
 
   return (
-    <div>
-      <Buscador
-        cambiaremos={handleSearchAll}
-        nextCambio={nextCambio}
-        next={next}></Buscador>
-      <div
-        style={{
-          paddingTop: '1.5rem',
-          display: 'flex',
-          gap: '1.5rem',
-          flexDirection: 'column',
-        }}>
-        <p style={{textAlign: 'center'}}>
-          Resultados{' '}
-          {data?.pagination.limit
-            ? data?.results.length + data?.pagination.offset
-            : null}{' '}
-          de {data?.pagination.total ? data?.pagination.total : null}
-        </p>
-        <div
-          style={{
-            padding: '1rem',
-            display: 'flex',
-            gap: '1rem',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}>
-          {data?.results.length > 0
-            ? data.results.map((el: any, pos: any) => {
-                return (
-                  <Link
-                    href={'/product/' + el.objectID}
-                    key={pos}
-                    style={{textDecoration: 'none'}}>
-                    {' '}
-                    <ThemplateDestacados
-                      id={el.objectID}
-                      price={el['Unit cost']}
-                      title={el.Name}
-                      img={el.Images}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: theme.spacing(4),
+      }}
+    >
+      <SearchBar initialQuery={initialQuery} onSearchStart={handleSearchStart} />
+
+      {isLoading && searchState.offset === 0 ? (
+        <CircularProgress />
+      ) : error ? (
+        <Typography color='error'>Error al cargar los resultados</Typography>
+      ) : (
+        <>
+          {/* Resultados encontrados */}
+          {data?.pagination?.total ? (
+            <Typography variant='body1' color='text.secondary'>
+              Mostrando{" "}
+              {Math.min((data.results?.length || 0) + searchState.offset, data.pagination.total)} de{" "}
+              {data.pagination.total} resultados
+            </Typography>
+          ) : null}
+
+          {/* Grid de productos */}
+          <Box
+            sx={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
+              },
+              gap: theme.spacing(3),
+              p: theme.spacing(2),
+            }}
+          >
+            {data?.results?.length ? (
+              data.results.map((product) => (
+                <Link
+                  href={`/product/${product.objectID}`}
+                  key={product.objectID}
+                  passHref
+                  legacyBehavior
+                >
+                  <Box component='a' sx={{ textDecoration: "none" }}>
+                    <ProductCard
+                      id={product.objectID}
+                      price={product["Unit cost"]}
+                      title={product.Name}
+                      image={product.Images[0].url}
                     />
-                  </Link>
-                );
-              })
-            : 'No se encontraron resultados'}
-        </div>
-      </div>
-      <div style={{justifyContent: 'center'}} ref={btn}>
-        <Button
-          style={{display: 'flex'}}
-          size='large'
-          color='success'
-          onClick={handleClick}>
-          Ver más <NavigateNextIcon />
-        </Button>
-      </div>
-    </div>
+                  </Box>
+                </Link>
+              ))
+            ) : searchState.query && !isLoading ? (
+              <Box
+                sx={{
+                  gridColumn: "1 / -1",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: theme.spacing(2),
+                  p: theme.spacing(4),
+                  textAlign: "center",
+                }}
+              >
+                <SentimentDissatisfied
+                  sx={{
+                    fontSize: "3rem",
+                    color: theme.palette.text.disabled,
+                  }}
+                />
+                <Typography variant='h6'>
+                  No se encontraron resultados para "{searchState.query}"
+                </Typography>
+                <Typography variant='body1' color='text.secondary'>
+                  Intenta con otros términos de búsqueda
+                </Typography>
+              </Box>
+            ) : null}
+          </Box>
+
+          {/* Botón para cargar más */}
+          {hasMoreResults && (
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={handleLoadMore}
+              disabled={isLoading}
+              endIcon={isLoading ? <CircularProgress size={20} /> : <NavigateNext />}
+              sx={{
+                px: 4,
+                py: 1.5,
+                borderRadius: "50px",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: theme.shadows[2],
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              {isLoading ? "Cargando..." : "Ver más productos"}
+            </Button>
+          )}
+        </>
+      )}
+    </Box>
   );
 }

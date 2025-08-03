@@ -1,215 +1,243 @@
-'use client';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link';
-import {useMe} from '@/lib/hooks';
-import {useEffect, useState} from 'react';
-import {user} from '@/lib/atom';
-import {useRecoilState} from 'recoil';
-import {useRouter} from 'next/navigation';
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
+import { user } from "@/lib/atom";
+import { useAuthUser } from "@/lib/hooks";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import Link from "next/link";
 
-const pages = [
-  {link: 'Productos', url: '/search'},
-  {link: 'Sobre nosotros', url: '/'},
-];
-const settings = [
-  {link: 'Perfil', url: '/profile'},
-  {link: 'Favoritos', url: '/favoritos'},
-  {link: 'Inicio sesión', url: '/signin'},
+const NAV_ITEMS = [
+  { label: "Productos", path: "/search" },
+  { label: "Sobre nosotros", path: "/nosotros" },
 ];
 
-function ResponsiveAppBar() {
-  const {refresh} = useRouter();
-  const [dataUser, setDataUser] = useRecoilState(user);
+const USER_MENU_ITEMS = [
+  { label: "Perfil", path: "/profile" },
+  { label: "Favoritos", path: "/favoritos" },
+  { label: "Inicio sesión", path: "/signin" },
+];
 
-  const {data} = useMe();
+const LOGO_URL = "https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.webp";
 
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+export function ResponsiveAppBar() {
+  const router = useRouter();
+  const setUserData = useSetRecoilState(user);
+  const { data } = useAuthUser();
+  const [mounted, setMounted] = useState(false);
+
+  const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null);
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
+
   useEffect(() => {
+    setMounted(true);
     if (data?.email) {
-      setDataUser(data);
+      setUserData(data);
     }
-  }, [data, dataUser]);
+  }, [data, setUserData]);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenMobileMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMenuAnchor(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+    setUserMenuAnchor(event.currentTarget);
   };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+
+  const handleCloseMobileMenu = () => {
+    setMobileMenuAnchor(null);
   };
+
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setUserMenuAnchor(null);
   };
 
-  const handleCloseUser = async () => {
-    const closeUser = (await import('@/lib/hooks')).closeUser;
+  const handleLogout = async () => {
+    const { closeUser } = await import("@/lib/hooks");
     await closeUser();
-    setTimeout(() => {
-      refresh();
-    }, 1000);
+    setTimeout(() => router.refresh(), 1000);
   };
 
+  const isAuthenticated = !!data?.email;
+
+  if (!mounted) {
+    // Return a simplified version for SSR to match the initial client render
+    return (
+      <AppBar position='static' color='primary' elevation={0}>
+        <Container maxWidth='xl'>
+          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton size='large' color='inherit'>
+                <MenuIcon />
+              </IconButton>
+            </Box>
+            <Link href='/' passHref>
+              <img
+                src={LOGO_URL}
+                alt='Logo'
+                width={55}
+                height={60}
+                style={{ objectFit: "contain" }}
+              />
+            </Link>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Button color='inherit'>Inicio Sesión</Button>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
+  }
   return (
-    <AppBar position='static' color='primary'>
+    <AppBar position='static' color='primary' elevation={0}>
       <Container maxWidth='xl'>
-        <Toolbar
-          disableGutters
-          style={{display: 'flex', justifyContent: 'space-between'}}>
-          <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+        <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+          {/* Mobile Menu */}
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
+              aria-label='menu'
+              aria-controls='mobile-menu'
               aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'>
+              onClick={handleOpenMobileMenu}
+              color='inherit'
+            >
               <MenuIcon />
             </IconButton>
             <Menu
-              anchorEl={anchorElNav}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: {xs: 'block', md: 'none'},
-              }}>
-              {pages.map((page) => (
-                <MenuItem key={page.link} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>
-                    <Link
-                      href={page.url}
-                      style={{
-                        color: 'inherit',
-                        backgroundColor: 'inherit',
-                        textDecoration: 'none',
-                      }}>
-                      {page.link}
-                    </Link>
-                  </Typography>
+              id='mobile-menu'
+              anchorEl={mobileMenuAnchor}
+              open={Boolean(mobileMenuAnchor)}
+              onClose={handleCloseMobileMenu}
+              sx={{ display: { xs: "block", md: "none" } }}
+            >
+              {NAV_ITEMS.map((item) => (
+                <MenuItem key={item.label} onClick={handleCloseMobileMenu}>
+                  <Link
+                    href={item.path}
+                    style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+                  >
+                    <Typography textAlign='center'>{item.label}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Link href={'/'}>
-            {' '}
+
+          {/* Logo */}
+          <Link href='/' passHref>
             <img
-              src='https://res.cloudinary.com/dy26iktoi/image/upload/v1688595425/logo_mzoa3e.webp'
-              alt='logo'
+              src={LOGO_URL}
+              alt='Logo'
               width={55}
               height={60}
+              style={{ objectFit: "contain" }}
             />
           </Link>
-          <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-            {pages.map((page) => (
-              <Link href={page.url} key={page.link}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{my: 2, color: 'white', display: 'block'}}>
-                  {page.link}
-                </Button>
-              </Link>
+
+          {/* Desktop Navigation */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 3 }}>
+            {NAV_ITEMS.map((item) => (
+              <Button
+                key={item.label}
+                component={Link}
+                href={item.path}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.08)" },
+                }}
+              >
+                {item.label}
+              </Button>
             ))}
           </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '0.5rem',
-            }}>
-            <Tooltip title='Configuracion'>
-              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                {dataUser?.email ? (
-                  <div>
-                    <Typography
-                      sx={{
-                        my: 2,
-                        color: 'white',
-                        display: 'block',
-                        margin: 0,
-                        padding: 0,
-                        cursor: 'pointer',
-                      }}>
-                      {data?.email}
-                    </Typography>
-                  </div>
-                ) : null}
-              </IconButton>
-            </Tooltip>
 
-            {!data?.email ? (
-              <Link href={'/signin'}>
-                <Typography
-                  sx={{
-                    my: 2,
-                    color: 'white',
-                    display: 'block',
-                    margin: 0,
-                    padding: 0,
-                    textDecoration: 'none',
-                  }}>
-                  Inicio Sesión
-                </Typography>{' '}
-              </Link>
-            ) : null}
-            {data?.email ? (
-              <div>
+          {/* User Section */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {isAuthenticated ? (
+              <>
+                <Tooltip title='Configuración'>
+                  <Typography
+                    onClick={handleOpenUserMenu}
+                    sx={{
+                      color: "white",
+                      cursor: "pointer",
+                      fontWeight: 500,
+                      "&:hover": { opacity: 0.8 },
+                    }}
+                  >
+                    {data?.email}
+                  </Typography>
+                </Tooltip>
+
                 <Button
-                  onClick={handleCloseUser}
-                  type='submit'
+                  onClick={handleLogout}
                   sx={{
-                    my: 2,
-                    color: 'red',
-                    display: 'block',
-                    margin: 0,
-                    padding: 0,
-                  }}>
+                    color: "error.light",
+                    "&:hover": { backgroundColor: "rgba(255, 0, 0, 0.08)" },
+                  }}
+                >
                   Cerrar Sesión
                 </Button>
-              </div>
-            ) : null}
+              </>
+            ) : (
+              <Button
+                component={Link}
+                href='/signin'
+                sx={{
+                  color: "white",
+                  "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.08)" },
+                }}
+              >
+                Inicio Sesión
+              </Button>
+            )}
+
+            {/* User Menu */}
             <Menu
-              sx={{mt: '45px'}}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              anchorEl={userMenuAnchor}
+              open={Boolean(userMenuAnchor)}
+              onClose={handleCloseUserMenu}
+              sx={{ mt: "45px" }}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                },
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {settings.map((setting) =>
-                data && setting.link !== 'Inicio sesión' ? (
-                  <MenuItem key={setting.link} onClick={handleCloseUserMenu}>
-                    <Link
-                      href={setting.url ? setting.url : ''}
-                      style={{color: 'white'}}>
-                      <Typography textAlign='center'>{setting.link}</Typography>
-                    </Link>
-                  </MenuItem>
-                ) : null
+            >
+              {USER_MENU_ITEMS.map(
+                (item) =>
+                  isAuthenticated &&
+                  item.label !== "Inicio sesión" && (
+                    <MenuItem key={item.label} onClick={handleCloseUserMenu}>
+                      <Link
+                        href={item.path}
+                        style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+                      >
+                        <Typography textAlign='center'>{item.label}</Typography>
+                      </Link>
+                    </MenuItem>
+                  )
               )}
             </Menu>
           </Box>
@@ -218,5 +246,3 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-
-export {ResponsiveAppBar};

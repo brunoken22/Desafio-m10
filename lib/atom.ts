@@ -1,4 +1,4 @@
-import {atom} from 'recoil';
+import { atom } from "recoil";
 export type Favorito = {
   name: string;
   price: number;
@@ -6,7 +6,7 @@ export type Favorito = {
   img: string;
 };
 export const searchAll = atom({
-  key: 'search',
+  key: "search",
   default: {
     results: [],
     pagination: {},
@@ -14,16 +14,16 @@ export const searchAll = atom({
 });
 
 export const user = atom({
-  key: 'user',
+  key: "user",
   default: {
-    email: '',
-    nombre: '',
-    direccion: '',
-    telefono: '',
+    email: "",
+    nombre: "",
+    direccion: "",
+    telefono: "",
     favorite: [] as string[],
   },
 });
 export const favoritos = atom({
-  key: 'favoritos',
-  default: ([] as Favorito[]) || false,
+  key: "favoritos",
+  default: [] as Favorito[],
 });

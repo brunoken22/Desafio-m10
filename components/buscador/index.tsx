@@ -1,93 +1,133 @@
-'use client';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import {useEffect, useState} from 'react';
-import {search} from '@/lib/hooks';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+"use client";
+import { Paper, InputBase, IconButton, useTheme } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
-export function Buscador(props: any) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [searchState, setSearchState] = useState({
-    q: '',
-    limit: searchParams.get('limit') || 5,
-    offset: searchParams.get('offset') || 0,
-  });
-  const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
+interface SearchBarProps {
+  initialQuery?: string;
+  onSearchStart?: (query: string) => void;
+  onClearSearch?: () => void; // Nueva prop para manejar limpieza
+}
+
+export default function SearchBar({
+  initialQuery = "",
+  onSearchStart,
+  onClearSearch,
+}: SearchBarProps) {
+  const theme = useTheme();
   const router = useRouter();
-  const {data} = search(searchState);
+  const params = useSearchParams();
+  const [query, setQuery] = useState(initialQuery);
+  const [isSearching, setIsSearching] = useState(false);
+  const [prevQuery, setPrevQuery] = useState(initialQuery);
 
+  // Sincronizar con cambios externos
   useEffect(() => {
-    if (props.nextCambio) {
-      props.next(false);
-      setSearchState((prev: any) => ({
-        ...prev,
-        offset: Number(searchParams.get('offset')) + 5,
-      }));
-      router.push(
-        `/search?q=${inputValue}&limit=${searchState.limit}&offset=${
-          Number(searchState.offset) + 5
-        }`
-      );
+    const urlQuery = params.get("q") || "";
+    if (urlQuery !== query) {
+      setQuery(urlQuery);
+      setPrevQuery(urlQuery);
     }
-    if (inputValue) {
-      setSearchState((prev) => ({
-        ...prev,
-        q: inputValue,
-      }));
-    }
-    if (data?.results && props.cambiaremos) {
-      props.cambiaremos(data);
-    }
-  }, [data, props.nextCambio]);
+  }, [params]);
 
-  const handlerSubmit = (e: any): any => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const value = e.target.search.value;
-    const ir = `/search?q=${value}&limit=5&offset=0`;
-    if (
-      data?.results.length > 0 &&
-      Number(data?.results.length) + data?.pagination.offset ==
-        Number(data?.pagination.total && pathname == '/search')
-    ) {
-      location.reload();
+    const trimmedQuery = query.trim();
+
+    // Si el query está vacío, ejecutar búsqueda vacía
+    if (trimmedQuery.length === 0) {
+      handleClearSearch();
+      return;
     }
-    router.push(ir);
-    setSearchState((prev: any) => ({
-      ...prev,
-      offset: 0,
-      q: value,
-    }));
+
+    // Evitar búsqueda si es muy corto
+    if (trimmedQuery.length < 3) {
+      return;
+    }
+
+    executeSearch(trimmedQuery);
+  };
+
+  const executeSearch = (searchTerm: string) => {
+    setIsSearching(true);
+
+    if (onSearchStart) {
+      onSearchStart(searchTerm);
+    }
+
+    router.replace(`/search?q=${encodeURIComponent(searchTerm)}&limit=12&offset=0`, {
+      scroll: false,
+    });
+
+    setTimeout(() => setIsSearching(false), 300);
+  };
+
+  const handleClearSearch = () => {
+    if (onClearSearch) {
+      onClearSearch();
+    }
+    router.replace("/search?limit=12&offset=0", { scroll: false });
+    setPrevQuery("");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setQuery(newValue);
+
+    // Si el usuario borra completamente el input
+    if (newValue.trim().length === 0 && prevQuery.length > 0) {
+      handleClearSearch();
+    }
+
+    setPrevQuery(newValue);
   };
 
   return (
-    <div>
-      <Paper
-        component='form'
-        sx={{
-          p: '2px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          maxWidth: '100%',
-          minWidth: '50%',
-          margin: 'auto',
+    <Paper
+      component='form'
+      onSubmit={handleSubmit}
+      elevation={3}
+      sx={{
+        p: "4px 8px",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        maxWidth: 600,
+        borderRadius: "50px",
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[4],
+        margin: "0 auto",
+      }}
+    >
+      <InputBase
+        name='search'
+        sx={{ ml: 2, flex: 1 }}
+        placeholder='Buscar productos... (mín. 3 caracteres)'
+        value={query}
+        onChange={handleChange}
+        inputProps={{
+          "aria-label": "Buscar productos",
+          minLength: 3,
         }}
-        onSubmit={handlerSubmit}>
-        <InputBase
-          name='search'
-          sx={{ml: 1, flex: 1}}
-          placeholder='Buscador'
-          value={inputValue}
-          onChange={(e: any) => setInputValue(e.target.value)}
-          inputProps={{'aria-label': 'Buscador'}}
-          required
-        />
-        <IconButton type='submit' sx={{p: '10px'}} aria-label='search'>
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-    </div>
+      />
+      <IconButton
+        type='submit'
+        color='primary'
+        disabled={isSearching}
+        sx={{
+          p: "10px",
+          "&:hover": {
+            backgroundColor: theme.palette.action.hover,
+          },
+          "&:disabled": {
+            opacity: 0.5,
+          },
+        }}
+        aria-label='Buscar'
+      >
+        <SearchIcon fontSize='medium' />
+      </IconButton>
+    </Paper>
   );
 }
