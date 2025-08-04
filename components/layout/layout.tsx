@@ -21,7 +21,9 @@ export function MainLayout({ children }: any) {
       <MuiThemeProvider theme={muiTheme}>
         <ResponsiveAppBar />
       </MuiThemeProvider>
-      <div className='body_container'>{children}</div>
+      <div className='body_container' style={{ maxWidth: "100vw" }}>
+        {children}
+      </div>
       <MuiThemeProvider theme={muiTheme}>
         <Footer />
       </MuiThemeProvider>
