@@ -106,35 +106,28 @@ export default function SearchPage() {
           {/* Grid de productos */}
           <Box
             sx={{
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                lg: "repeat(4, 1fr)",
-              },
-              gap: theme.spacing(3),
-              p: theme.spacing(2),
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "1rem",
             }}
           >
             {data?.results?.length ? (
               data.results.map((product) => (
-                <Link
-                  href={`/product/${product.objectID}`}
-                  key={product.objectID}
-                  passHref
-                  legacyBehavior
+                <Box
+                  sx={{
+                    textDecoration: "none",
+                    // Asegura que las cards no se compriman demasiado en móviles
+                    minWidth: { xs: "140px", sm: "auto" },
+                  }}
                 >
-                  <Box component='a' sx={{ textDecoration: "none" }}>
-                    <ProductCard
-                      id={product.objectID}
-                      price={product["Unit cost"]}
-                      title={product.Name}
-                      image={product.Images[0].url}
-                    />
-                  </Box>
-                </Link>
+                  <ProductCard
+                    id={product.objectID}
+                    price={product["Unit cost"]}
+                    title={product.Name}
+                    image={product.Images[0].url}
+                  />
+                </Box>
               ))
             ) : searchState.query && !isLoading ? (
               <Box

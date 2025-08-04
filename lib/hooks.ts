@@ -24,21 +24,17 @@ type Order = {
 };
 export function useAuthUser() {
   const [hasToken, setHasToken] = useState<boolean | null>(null);
-
+  const option = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  };
   // Configuración de fetch condicional
   const { data, error, isLoading } = useSWR(
     hasToken ? "/api/me" : null, // Solo hace la petición si hasToken es true
-    async (url) => {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      if (!response.ok) throw new Error("Error de autenticación");
-      return response.json();
-    }
+    (api) => fetchApiAuth([api, option])
   );
 
   // Verificar token al montar el componente
@@ -48,9 +44,9 @@ export function useAuthUser() {
   }, []);
 
   return {
-    data: data?.user,
+    data: data,
     isLoading: hasToken === null || (hasToken && isLoading),
-    isAuthenticated: !!data?.user,
+    isAuthenticated: !!data,
     hasToken,
     error,
   };
