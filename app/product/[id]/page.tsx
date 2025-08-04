@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { CheckCircleOutline, Star, StarBorder, ShoppingCart, Share } from "@mui/icons-material";
-import { Carousel3D } from "@/components/carousel";
+import { Carousel } from "@/components/carousel";
 import { useOrder, useProduct, useFavorite } from "@/lib/hooks";
 import { Loader } from "@/ui/loader";
 import { favoritos, Favorito, user } from "@/lib/atom";
@@ -101,7 +101,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           overflow: "hidden",
         }}
       >
-        <Carousel3D images={data?.Images || []} />
+        <Carousel images={data?.Images || []} />
 
         <Box
           sx={{
